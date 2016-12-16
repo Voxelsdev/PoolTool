@@ -1,7 +1,7 @@
 {
-  "name": "DOMmod",
+  "name": "PoolTool",
   "version": "0.0.0",
-  "description": "A DOM viewer.",
+  "description": "An online game",
   "scripts": {
     "build": "npm run clean && npm run build:webpack",
     "build:webpack": "cross-env NODE_ENV=production webpack --config webpack.config.prod.js --display-error-details",
