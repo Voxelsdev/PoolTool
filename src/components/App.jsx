@@ -1,22 +1,37 @@
 import React, { Component } from 'react';
-import { BrowserRouter } from 'react-router';
+import { BrowserRouter, Match, Miss } from 'react-router';
+import AuthService from '../utils/AuthService';
 
-import Router from './Router';
+import Header from './Header';
+import Main from './Main';
+import Login from './Login.jsx';
 
-class App extends Component {
+export default class App extends Component {
   constructor() {
     super();
+    this.state = {
+      auth: new AuthService('MGb7kMb0m1LaMy5VZIAOvObm4RiZenlE', 'tylermiller.auth0.com'),
+    }
+    this.requireAuth = this.requireAuth.bind(this);
+  }
+
+  requireAuth(nextState, replace) {
+    if (!this.state.auth.loggedIn()) {
+      replace({ pathname: '/login' });
+    }
   }
 
   render() {
     return (
       <BrowserRouter>
         <div>
-          <Router />
+          <Header />
+          <Match pattern="/" exactly componenet={Main} onEnter={this.requireAuth} />
+          <Match pattern="/login" render={
+            <Login auth={this.state.auth}/>
+          } />
         </div>
       </BrowserRouter>
     )
   }
 }
-
-export default App;
