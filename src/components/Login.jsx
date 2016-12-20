@@ -3,11 +3,22 @@ import Styles from './css/login.css';
 import classnames from 'classnames';
 
 export default class Login extends Component {
+  constructor() {
+    super();
+    this.handleLogin = this.handleLogin.bind(this);
+  }
+
+  handleLogin() {
+    this.props.handleLoginState(false, true);
+  }
+
   render() {
     return (
       <div className={Styles.container}>
         <h2 className={Styles.loginForm}>Log in</h2>
-        <a className={classnames('button', Styles.loginForm)} href="/auth/google" id={Styles.loginBtn}>Login through Google</a>
+        <button className={classnames('button', Styles.loginForm)}
+           id={Styles.loginBtn}
+           onClick={this.handleLogin}>Login through Google</button>
       </div>
     )
   }
