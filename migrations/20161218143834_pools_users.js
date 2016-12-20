@@ -4,12 +4,12 @@ exports.up = (knex) => {
   return knex.schema.createTable('pools_users', (table) => {
     table.increments();
     table.integer('pool_id')
-      .notNullable();
+      .notNullable()
       .references('id')
       .inTable('pools')
       .onDelete('CASCADE');
-    table.integer('user_id')
-      .notNullable();
+    table.string('user_id')
+      .notNullable()
       .references('auth_id')
       .inTable('users')
       .onDelete('CASCADE');

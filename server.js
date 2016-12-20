@@ -10,6 +10,7 @@ const path = require('path');
 const webpack = require('webpack');
 const config = require('./webpack.config.dev');
 const compiler = webpack(config);
+const passport = require('passport');
 
 app.use(cookieParser());
 app.use(bodyParser());
@@ -20,6 +21,17 @@ if (process.env.NODE_ENV !== 'production') {
 
 const port = process.env.PORT || 3000;
 
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+
+passport.deserializeUser((user, done) => {
+  done(null, user);
+});
+
 app.use(require('webpack-dev-middleware')(compiler, {
   noInfo: true,
   publicPath: config.output.publicPath
@@ -28,6 +40,10 @@ app.use(require('webpack-dev-middleware')(compiler, {
 app.use(require('webpack-hot-middleware')(compiler));
 
 app.use('/dist', express.static('dist'));
+
+const auth = require('./routes/auth');
+
+app.use('/auth', auth);
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));

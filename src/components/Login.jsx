@@ -1,20 +1,13 @@
-import React, { Component, propTypes as T } from 'react';
-import AuthService from '../utils/AuthService';
+import React, { Component } from 'react';
+import Styles from './css/login.css';
+import classnames from 'classnames';
 
 export default class Login extends Component {
-  constructor() {
-    super();
-    this.state = {
-      location: T.object,
-      auth: T.instanceOf(AuthService)
-    }
-  }
-
   render() {
     return (
-      <div>
-        <h2>Login</h2>
-        <button onClick={this.props.auth.login.bind(this)}>Login through Auth0</button>
+      <div className={Styles.container}>
+        <h2 className={Styles.loginForm}>Log in</h2>
+        <a className={classnames('button', Styles.loginForm)} href="/auth/google" id={Styles.loginBtn}>Login through Google</a>
       </div>
     )
   }
