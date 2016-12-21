@@ -1,0 +1,52 @@
+.header {
+  min-height: 10%;
+  max-height: 10%;
+  display: flex;
+  align-items: center;
+  align-content: center;
+}
+
+.map {
+  height: 80%;
+}
+
+.mine {
+  max-height: 10%;
+  min-height: 10%;
+  line-height: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+}
+
+.fullHeight {
+  height: 100%;
+}
+
+.inventory, .logout {
+  display: inline-block;
+  height: 100%;
+  text-align: center;
+  text-decoration: none;
+  line-height: 60px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border-right: 1px solid #e2e2e2;
+  color: #e2e2e2;
+  box-sizing: border-box;
+}
+
+.inventory {
+  width: 66.45%;
+}
+
+.logout {
+  width: 33.3%;
+  border: none;
+  border-left: 1px solid #e2e2e2;
+}
+
+#mineBtn {
+  border: none;
+}

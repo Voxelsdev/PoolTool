@@ -6,16 +6,12 @@ import Main from './Main.jsx';
 import styles from './css/app.css'
 
 export default class App extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
-      <BrowserRouter>
-        <div>
+      <BrowserRouter className={styles.fullHeight}>
+        <div className={styles.fullHeight}>
           <Header />
-          <Main />
+          <Main  className={styles.fullHeight}/>
         </div>
       </BrowserRouter>
     )

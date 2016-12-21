@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { Match, Miss } from 'react-router';
 import axios from 'axios';
+import Styles from './css/main.css'
 
 import Login from './Login.jsx';
+import Game from './Game.jsx';
 
 export default class Main extends Component {
   constructor(props) {
@@ -24,8 +26,8 @@ export default class Main extends Component {
 
     this.setState({ loggedIn: isLoggedIn });
 
-    if (isLoggedIn && !isLoggingOut) {
-      window.location.href = '/map';
+    if (isLoggedIn && !isLoggingOut && window.location.href !== 'http://localhost:3000/game') {
+      window.location.href = '/game';
     }
 
     if (isLoggedIn && isLoggingOut) {
@@ -50,11 +52,16 @@ export default class Main extends Component {
 
   render() {
     return (
-      <div id="main">
+      <div className={Styles.main}>
         <Match pattern="/" exactly render={() =>
            <Login handleLoginState={this.handleLoginState}></Login>
         }/>
-        <Match pattern="/map" component={Login} />
+        <Match pattern="/game" render={() =>
+          <Game handleLoginState={this.handleLoginState}></Game>
+        }/>
+        <Match pattern="/inventory" render={() =>
+          <Game handleLoginState={this.handleLoginState}></Game>
+        }/>
       </div>
     )
   }

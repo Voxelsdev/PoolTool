@@ -65,7 +65,7 @@ router.get('/google/callback',
           secure: router.get('env') === 'production',
         });
         res.cookie('loggedIn', 'true');
-        res.redirect('/');
+        res.redirect('/game');
     })
     .catch(err => {
       next(err);
@@ -80,72 +80,3 @@ router.get('/logout', (req, res) => {
 });
 
 module.exports = router;
-
-
-// {
-//    "profile":{
-//       "id":"107675765010794042565",
-//       "displayName":"Tyler Miller",
-//       "name":{
-//          "familyName":"Miller",
-//          "givenName":"Tyler"
-//       },
-//       "emails":[
-//          {
-//             "value":"tylermillerhome@gmail.com",
-//             "type":"account"
-//          }
-//       ],
-//       "photos":[
-//          {
-//             "value":"https://lh4.googleusercontent.com/-RdCORnObcHg/AAAAAAAAAAI/AAAAAAAAAHY/cA9W-oYsIik/photo.jpg?sz=50"
-//          }
-//       ],
-//       "gender":"male",
-//       "provider":"google",
-//       "_json":{
-//          "kind":"plus#person",
-//          "etag":"\"FT7X6cYw9BSnPtIywEFNNGVVdio/SI3ViHW0hTSXMb_0R8veHv4BvW0\"",
-//          "gender":"male",
-//          "emails":[
-//             {
-//                "value":"tylermillerhome@gmail.com",
-//                "type":"account"
-//             }
-//          ],
-//          "objectType":"person",
-//          "id":"107675765010794042565",
-//          "displayName":"Tyler Miller",
-//          "name":{
-//             "familyName":"Miller",
-//             "givenName":"Tyler"
-//          },
-//          "url":"https://plus.google.com/107675765010794042565",
-//          "image":{
-//             "url":"https://lh4.googleusercontent.com/-RdCORnObcHg/AAAAAAAAAAI/AAAAAAAAAHY/cA9W-oYsIik/photo.jpg?sz=50",
-//             "isDefault":false
-//          },
-//          "isPlusUser":true,
-//          "language":"en",
-//          "ageRange":{
-//             "min":18,
-//             "max":20
-//          },
-//          "circledByCount":2,
-//          "verified":false,
-//          "cover":{
-//             "layout":"banner",
-//             "coverPhoto":{
-//                "url":"https://lh3.googleusercontent.com/wMg6gRKV9N19SbSXo5fV4PU-kAtamvzn6h9tTZZMDoPkryZZi8MogF51z-GjT_lqm3E1JY0=s630-fcrop64=1,00310000ffffffa6",
-//                "height":528,
-//                "width":940
-//             },
-//             "coverInfo":{
-//                "topImageOffset":0,
-//                "leftImageOffset":0
-//             }
-//          }
-//       }
-//    },
-//    "accessToken":"ya29.CjS6A8MGauabFraDCmuv8f6XJbZirfKq-1gXDAFDvYESp2Mh0aoMRuglvtcoy9iWNtY3iGf9"
-// }
