@@ -27,6 +27,26 @@ router.get('/inventory', authenticate, (req, res, next) => {
     });
 });
 
+router.get('/type', authenticate, (req, res, next) => {
+  const { userId } = req.token;
+
+  knex('users')
+    .where('auth_id', userId)
+    .first()
+    .then((row) => {
+      if (!row) {
+        res.redirect('/');
+      }
+
+      const user = camelizeKeys(row);
+
+      res.send(user.isAdmin ? 'admin' : 'joe shmoe');
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+})
+
 router.post('/inventory', authenticate, (req, res, next) => {
   const { userId } = req.token;
   const { requestedTool } = req.body;
@@ -87,10 +107,10 @@ router.post('/inventory', authenticate, (req, res, next) => {
                         balance: user.balance
                       })
                       .then((user) => {
-                        res.send('Rollback success, ')
+                        res.send('Rollback success');
                       })
                       .catch((err) => {
-                        console.error('Rollback Failed');
+                        console.error('Rollback Failed.');
                         console.error(err);
                       });
                   });

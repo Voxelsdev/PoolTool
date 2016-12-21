@@ -9,6 +9,7 @@ exports.up = (knex) => {
     table.integer('min').notNullable().defaultTo(0);
     table.integer('max').notNullable().defaultTo(0);
     table.decimal('balance').notNullable().defaultTo(0);
+    table.boolean('is_admin').notNullable().defaultTo(false);
     table.timestamps(true, true);
   });
 };

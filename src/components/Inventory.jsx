@@ -13,6 +13,7 @@ export default class Inventory extends Component {
     axios.get('/users/inventory')
       .then((res) => {
         const tools = res.data;
+        console.log(res.data);
         this.setState({ tools });
       })
       .catch(err => {
