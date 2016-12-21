@@ -42,8 +42,10 @@ app.use(require('webpack-hot-middleware')(compiler));
 app.use('/dist', express.static('dist'));
 
 const auth = require('./routes/auth');
+const inventory = require('./routes/inventory');
 
 app.use('/auth', auth);
+app.use('/users', inventory);
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));

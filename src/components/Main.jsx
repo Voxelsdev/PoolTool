@@ -5,6 +5,7 @@ import Styles from './css/main.css'
 
 import Login from './Login.jsx';
 import Game from './Game.jsx';
+import Inventory from './Inventory.jsx';
 
 export default class Main extends Component {
   constructor(props) {
@@ -60,7 +61,7 @@ export default class Main extends Component {
           <Game handleLoginState={this.handleLoginState}></Game>
         }/>
         <Match pattern="/inventory" render={() =>
-          <Game handleLoginState={this.handleLoginState}></Game>
+          <Inventory></Inventory>
         }/>
       </div>
     )

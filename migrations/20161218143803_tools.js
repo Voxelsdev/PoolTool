@@ -7,6 +7,7 @@ exports.up = (knex) => {
     table.integer('tier').notNullable().defaultTo(0);
     table.time('expiration');
     table.integer('durability').notNullable().defaultTo(0);
+    table.decimal('price').notNullable().defaultTo(0);
     table.timestamps(true, true);
   });
 };

@@ -8,6 +8,7 @@ exports.up = (knex) => {
     table.string('avatar_url').notNullable().defaultTo('http://i.imgur.com/4z8QtKs.png');
     table.integer('min').notNullable().defaultTo(0);
     table.integer('max').notNullable().defaultTo(0);
+    table.decimal('balance').notNullable().defaultTo(0);
     table.timestamps(true, true);
   });
 };
