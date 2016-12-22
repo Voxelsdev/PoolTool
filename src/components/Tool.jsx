@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import Styles from './css/tool.css';
 
 export default class Tool extends Component {
   render() {
@@ -11,7 +12,7 @@ export default class Tool extends Component {
         </div>
 
         <div className={Styles.secondContainer}>
-          <div className{Styles.nameTierContainer}>
+          <div className={Styles.nameTierContainer}>
             <div className={Styles.nameContainer}>
               <p className={Styles.name}>{this.props.tool.toolName}</p>
             </div>
@@ -22,7 +23,7 @@ export default class Tool extends Component {
           </div>
 
           <div className={Styles.durabilityContainer}>
-            <p className={Styles.durability}>{this.props.tool.durability}</p>
+            <p className={Styles.durability}>Durability: {this.props.tool.durability}</p>
           </div>
         </div>
      </div>

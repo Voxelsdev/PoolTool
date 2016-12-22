@@ -1,0 +1,60 @@
+.toolContainer {
+  min-height: 20%;
+  max-height: 20%;
+  display: inline-block;
+}
+
+.iconContainer {
+  width: 20%;
+  height: 100%;
+}
+
+.icon {
+  height: 100%;
+  width: 100%;
+}
+
+.secondContainer {
+  display: inline-block;
+  height: 100%;
+  width: 80%;
+}
+
+.nameTierContainer {
+  height: 50%;
+  width: 100%;
+}
+
+.nameContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  width: 80%;
+  height: 100%;
+}
+
+.name, .tier, .durability {
+  text-transform: uppercase;
+  text-align: center;
+  color: #e2e2e2;
+  font-size: 12px;
+}
+
+.tierContainer {
+  display: flex;
+  justfiy-content: center;
+  align-items: center;
+  align-content: center;
+  width: 20%;
+  height: 100%;
+}
+
+.durabilityContainer {
+  height: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}

@@ -85,7 +85,8 @@ router.post('/inventory', authenticate, (req, res, next) => {
               .then((user) => {
                 const newTool = decamelizeKeys({
                   toolId: tool.id,
-                  userId: userId
+                  userId: userId,
+                  currentDurability: tool.durability
                 });
 
                 const toSend = {

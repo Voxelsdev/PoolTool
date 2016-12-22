@@ -13,6 +13,7 @@ exports.up = (knex) => {
       .references('auth_id')
       .inTable('users')
       .onDelete('CASCADE');
+    table.integer('current_durability').notNullable().defaultTo(0);
     table.timestamps(true, true);
   });
 };
