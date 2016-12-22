@@ -36,6 +36,7 @@ router.get('/type', authenticate, (req, res, next) => {
     .then((row) => {
       if (!row) {
         res.redirect('/');
+        return res.send();
       }
 
       const user = camelizeKeys(row);

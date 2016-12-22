@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
-import Styles from './css/game.css';
-import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
-import L from 'leaflet';
 import { Link } from 'react-router';
 import axios from 'axios';
-
-const pos = [47.598987, -122.333708];
+import Styles from './css/game.css';
+import Map from './Map.jsx';
 
 export default class Game extends Component {
   constructor() {
@@ -14,11 +11,7 @@ export default class Game extends Component {
       userType: 'joe shmoe'
     }
     this.handleLogout = this.handleLogout.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  handleClick(e) {
-    console.log("Lat, Lon : " + e.latlng.lat + ", " + e.latlng.lng);
+    this.onMapClick = this.onMapClick.bind(this);
   }
 
   handleLogout() {
@@ -35,6 +28,10 @@ export default class Game extends Component {
       });
   }
 
+  onMapClick(e) {
+    console.log(e);
+  }
+
   render() {
     return (
       <div className={Styles.fullHeight}>
@@ -46,16 +43,15 @@ export default class Game extends Component {
                 onClick={this.handleLogout} >Logout</Link>
         </div>
         <div className={Styles.map}>
-          <Map center={pos} zoom={13} style={{height: '100%'}} onClick={this.handleClick}>
-            <TileLayer
-              url='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-            />
-            <Marker position={pos}>
-              <Popup>
-                <span>A pretty popup</span>
-              </Popup>
-            </Marker>
+          <Map markers={[{
+              position: {
+                  lat: 25.0112183,
+                  lng: 121.52067570000001,
+                 },
+                 key: `Taiwan`,
+                 defaultAnimation: 2,
+              }]}
+              onMapClick={this.onMapClick}>
           </Map>
         </div>
         <div className={Styles.mine}>

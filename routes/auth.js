@@ -32,12 +32,12 @@ router.get('/google/callback',
   const user = req.user.profile;
   const email = user.emails[0].value;
   const avatarUrl = user.photos[0].value;
-  const authId = req.user.accessToken;
+  const authId = user.id;
   const { min, max } = user._json.ageRange;
 
   knex('users')
       .select(knex.raw('1=1'))
-      .where('email', email)
+      .where('auth_id', authId)
       .then((result) => {
         if (!result.length) {
           const newUser = {

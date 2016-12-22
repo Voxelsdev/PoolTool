@@ -80,7 +80,7 @@
     "pg": "^6.1.0",
     "react": "^15.3",
     "react-dom": "^15.4.1",
-    "react-leaflet": "^1.0.0-rc.3",
+    "react-google-maps": "^4.11.0",
     "react-router": "^4.0.0-alpha.6",
     "rimraf": "^2.4.3",
     "style-loader": "^0.13.1",
