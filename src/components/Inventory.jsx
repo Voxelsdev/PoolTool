@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import Styles from './css/inventory.css';
+import { Link } from 'react-router';
+import Tool from './Tool.jsx';
 
 export default class Inventory extends Component {
   constructor() {
@@ -13,7 +16,6 @@ export default class Inventory extends Component {
     axios.get('/users/inventory')
       .then((res) => {
         const tools = res.data;
-        console.log(res.data);
         this.setState({ tools });
       })
       .catch(err => {
@@ -23,8 +25,22 @@ export default class Inventory extends Component {
 
   render() {
     return (
-      <div>
-
+      <div className={Styles.inventoryContainer}>
+        <div className={Styles.header}>
+          <Link to="/buy"
+                className={Styles.buy}>Buy new tools</Link>
+        </div>
+        <div className={Styles.main}>
+          {
+            this.state.tools.map((tool) => {
+              <Tool tool={tool}></Tool>
+            })
+          }
+        </div>
+        <div className={Styles.back}>
+          <Link to="/game"
+                className={Styles.backBtn}>Back To Map</Link>
+        </div>
       </div>
     );
   }

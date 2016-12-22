@@ -28,8 +28,9 @@ export default class Game extends Component {
       });
   }
 
-  onMapClick(e) {
-    console.log(e);
+  onMapClick(event) {
+    const lat = event.latLng.lat();
+    const lng = event.latLng.lng();
   }
 
   render() {

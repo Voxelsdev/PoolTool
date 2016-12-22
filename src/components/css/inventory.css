@@ -1,0 +1,35 @@
+.inventoryContainer {
+  height: 100%;
+}
+
+.header, .back {
+  min-height: 10%;
+  max-height: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+}
+
+.main {
+  min-height: 80%;
+  max-height: 80%;
+}
+
+.back {
+  border-top: 2px solid #e2e2e2;
+}
+
+.header {
+  border-bottom: 2px solid #e2e2e2;
+}
+
+.backBtn, .buy {
+  height: 100%;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #e2e2e2;
+  box-sizing: border-box;
+}
