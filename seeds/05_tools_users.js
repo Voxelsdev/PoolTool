@@ -1,26 +1,20 @@
 'use strict';
 
-exports.seed = function(knex, Promise) {
+exports.seed = function(knex) {
   return knex('tools_users').del()
     .then(() => {
       return knex('tools_users').insert([{
-        tool_name: 'pickaxe',
-        tier: 42,
-        expiration: '2020-12-23T15:41:22-08:00',
-        durability: 100000,
-        price: 100.00
+        tool_id: 1,
+        user_id: 107675765010794042565,
+        current_durability: 99999,
       }, {
-        tool_name: 'shovel',
-        tier: 2,
-        expiration: '2020-12-23T15:41:22-08:00',
-        durability: 100000,
-        price: 10.00
+        tool_id: 1,
+        user_id: 107675765010794042565,
+        current_durability: 50000,
       }, {
-        tool_name: 'hammer',
-        tier: 20,
-        expiration: '2020-12-23T15:41:22-08:00',
-        durability: 100000,
-        price: 15.00
+        tool_id: 3,
+        user_id: 107675765010794042565,
+        current_durability: 10,
       }]);
     })
     .then(() => {
