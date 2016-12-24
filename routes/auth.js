@@ -11,6 +11,8 @@ const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 const jwt = require('jsonwebtoken');
 
+const authenticate = require('../utils/authentication.js');
+
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -18,6 +20,22 @@ passport.use(new GoogleStrategy({
 }, (accessToken, refreshToken, profile, done) => {
   return done(null, { profile, accessToken, refreshToken });
 }));
+
+router.get('/user', authenticate, (req, res, next) => {
+  const { userId } = req.token;
+
+  knex('users')
+    .where('auth_id', userId)
+    .then((userRow) => {
+      const user = camelizeKeys(userRow);
+
+      console.log(user);
+      return res.send(user);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+});
 
 router.get('/google',
   passport.authenticate('google', {

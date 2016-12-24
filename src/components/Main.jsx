@@ -6,6 +6,7 @@ import Styles from './css/main.css'
 import Login from './Login.jsx';
 import Game from './Game.jsx';
 import Inventory from './Inventory.jsx';
+import Store from './Store.jsx';
 
 export default class Main extends Component {
   constructor(props) {
@@ -63,6 +64,7 @@ export default class Main extends Component {
         <Match pattern="/inventory" render={() =>
           <Inventory></Inventory>
         }/>
+        <Match pattern="/store" component={Store} />
       </div>
     )
   }

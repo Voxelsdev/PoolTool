@@ -1,12 +1,15 @@
 .toolContainer {
   min-height: 20%;
   max-height: 20%;
+  width: 100%;
   display: inline-block;
 }
 
 .iconContainer {
-  width: 20%;
+  width: 19.4%;
   height: 100%;
+  margin: 0;
+  display: inline-block;
 }
 
 .icon {
@@ -18,18 +21,17 @@
   display: inline-block;
   height: 100%;
   width: 80%;
+  float: right;
 }
 
 .nameTierContainer {
   height: 50%;
   width: 100%;
+  display: inline-block;
 }
 
 .nameContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
+  display: inline-block;
   width: 80%;
   height: 100%;
 }
@@ -42,11 +44,8 @@
 }
 
 .tierContainer {
-  display: flex;
-  justfiy-content: center;
-  align-items: center;
-  align-content: center;
-  width: 20%;
+  display: inline-block;
+  width: 19.6%;
   height: 100%;
 }
 

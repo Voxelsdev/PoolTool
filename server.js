@@ -43,9 +43,13 @@ app.use('/dist', express.static('dist'));
 
 const auth = require('./routes/auth');
 const inventory = require('./routes/inventory');
+const store = require('./routes/store');
+const pool = require('./routes/pools');
 
 app.use('/auth', auth);
 app.use('/users', inventory);
+app.use('/store', store);
+app.use('/markers', pool);
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));

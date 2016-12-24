@@ -16,8 +16,8 @@ export default function Map (props) {
           googleMapElement={
             <GoogleMap
               ref={(map) => map }
-              defaultZoom={3}
-              defaultCenter={{ lat: -25.363882, lng: 131.044922 }}
+              defaultZoom={13}
+              defaultCenter={{ lat: 47.599037, lng: -122.333794 }}
               onClick={props.onMapClick}
               defaultOptions={{
                 styles: require('../../utils/mapstyle.json'),

@@ -8,7 +8,8 @@ export default class Game extends Component {
   constructor() {
     super();
     this.state = {
-      userType: 'joe shmoe'
+      userType: 'joe shmoe',
+      markers: []
     }
     this.handleLogout = this.handleLogout.bind(this);
     this.onMapClick = this.onMapClick.bind(this);
@@ -22,6 +23,19 @@ export default class Game extends Component {
     axios.get('/users/type')
       .then((res) => {
         this.setState({ userType: res.data });
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+    axios.get('/markers/all')
+      .then((res) => {
+        this.setState({ markers: res.data });
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+    axios.get('/auth/user')
+      .then((res) => {
       })
       .catch((err) => {
         console.error(err);
