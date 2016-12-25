@@ -9,13 +9,6 @@ export default class Inventory extends Component {
     super();
     this.state = {
       tools: [],
-      testtool: [{
-        id: 1,
-        toolName: 'pickaxe',
-        tier: 42,
-        durability: 100,
-        iconUrl: 'http://i.imgur.com/u9fIpFN.png',
-      }],
     }
   }
 
@@ -26,7 +19,7 @@ export default class Inventory extends Component {
         this.setState({ tools });
       })
       .catch(err => {
-        console.log(err);
+        console.error(err);
       });
   }
 
@@ -39,8 +32,8 @@ export default class Inventory extends Component {
         </div>
         <div className={Styles.main}>
           {
-            this.state.testtool.map((tool) => {
-              return (<Tool tool={tool} key={tool.id}></Tool>);
+            this.state.tools.map((tool, i) => {
+              return (<Tool tool={tool} key={i}></Tool>);
             })
           }
         </div>

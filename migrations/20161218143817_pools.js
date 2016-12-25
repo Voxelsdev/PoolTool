@@ -7,7 +7,7 @@ exports.up = (knex) => {
     table.integer('amount').notNullable().defaultTo(0);
     table.string('latitude').notNullable();
     table.string('longitude').notNullable();
-    table.time('expiration');
+    table.timestamp('expiration').defaultTo(knex.fn.now());
     table.integer('health').notNullable().defaultTo(100);
     table.integer('max_health').notNullable().defaultTo(100);
     table.timestamps(true, true);

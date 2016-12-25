@@ -27,10 +27,10 @@ router.get('/user', authenticate, (req, res, next) => {
   knex('users')
     .where('auth_id', userId)
     .then((userRow) => {
-      const user = camelizeKeys(userRow);
-
-      console.log(user);
-      return res.send(user);
+      if (userRow) {
+        return res.send(true);
+      }
+      return res.send(false);
     })
     .catch((err) => {
       console.error(err);

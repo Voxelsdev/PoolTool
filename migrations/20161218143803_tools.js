@@ -5,7 +5,7 @@ exports.up = (knex) => {
     table.increments();
     table.string('tool_name').notNullable().unique();
     table.integer('tier').notNullable().defaultTo(0);
-    table.time('expiration');
+    table.timestamp('expiration').defaultTo(knex.fn.now());
     table.integer('durability').notNullable().defaultTo(0);
     table.decimal('price').notNullable().defaultTo(0);
     table.string('icon_url').notNullable().defaultTo('');

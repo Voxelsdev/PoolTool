@@ -14,6 +14,7 @@ export default class Store extends Component {
     axios.get('/store/all')
       .then((res) => {
         let tools = res.data;
+        console.log(tools);
         this.setState({ tools });
       })
       .catch((err) => {

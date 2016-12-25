@@ -27,7 +27,7 @@ export default function Map (props) {
                 return (
                   <Marker
                     {...marker}
-                    onRightclick={() => props.onMarkerRightclick(index)} />
+                    onDblClick={props.handleMapClick}/>
                 );
               })}
             </GoogleMap>

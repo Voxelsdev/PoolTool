@@ -8,9 +8,9 @@ exports.up = (knex) => {
       .references('id')
       .inTable('tools')
       .onDelete('CASCADE');
-    table.string('user_id')
+    table.integer('user_id')
       .notNullable()
-      .references('auth_id')
+      .references('id')
       .inTable('users')
       .onDelete('CASCADE');
     table.integer('current_durability').notNullable().defaultTo(0);

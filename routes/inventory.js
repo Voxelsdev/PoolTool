@@ -13,7 +13,7 @@ router.get('/inventory', authenticate, (req, res, next) => {
 
   knex('tools_users')
     .select('tools.id', 'tools.tool_name', 'tools.tier', 'tools.expiration', 'tools.durability')
-    .innerJoin('users', 'users.auth_id', 'tools_users.user_id')
+    .innerJoin('users', 'users.id', 'tools_users.user_id')
     .innerJoin('tools', 'tools.id', 'tools_users.tool_id')
     .where('users.auth_id', userId)
     .orderBy('tools.id', 'DESC')
@@ -134,3 +134,4 @@ router.post('/inventory', authenticate, (req, res, next) => {
 });
 
 module.exports = router;
+// throw boom.create('stuff');

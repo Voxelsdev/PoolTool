@@ -17,6 +17,8 @@ router.get('/all', authenticate, (req, res, next) => {
   knex('tools')
     .where('expiration', '>', moment().format())
     .then((rows) => {
+      if (!rows) { throw boom.create('No tools found, please check connection')}
+
       const pools = camelizeKeys(rows);
 
       res.send(pools);
