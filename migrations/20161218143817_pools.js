@@ -5,6 +5,7 @@ exports.up = (knex) => {
     table.increments();
     table.string('type').notNullable().defaultTo('generic');
     table.integer('amount').notNullable().defaultTo(0);
+    table.integet('radius').notNullatble().defaultTo(0);
     table.string('latitude').notNullable();
     table.string('longitude').notNullable();
     table.timestamp('expiration').defaultTo(knex.fn.now());
