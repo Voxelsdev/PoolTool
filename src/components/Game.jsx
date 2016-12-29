@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import axios from 'axios';
 import Styles from './css/game.css';
 import Map from './Map.jsx';
+import Moment from 'moment';
 
 export default class Game extends Component {
   constructor() {
@@ -10,11 +11,18 @@ export default class Game extends Component {
     this.state = {
       userType: 'joe shmoe',
       markers: [],
+      type: '',
+      amount: -Infinity,
+      radius: -Infinity,
+      expDay: '',
+      expTime: '',
+      Health: -Infinity,
     }
     this.handleLogout = this.handleLogout.bind(this);
     this.handleMapClick = this.handleMapClick.bind(this);
     this.isAuthenticated = this.isAuthenticated.bind(this);
     this.handleMarkerClick = this.handleMarkerClick.bind(this);
+    this.handleMarkerClose = this.handleMarkerClose.bind(this);
   }
 
   handleLogout() {
@@ -25,7 +33,7 @@ export default class Game extends Component {
     return this.state.userType === 'admin';
   }
 
-  handleMapClick(event) {
+   handleMapClick(event) {
     if (this.isAuthenticated()) {
       const newMarkers = [
         ...this.state.markers,
@@ -33,6 +41,18 @@ export default class Game extends Component {
           position: event.latLng,
           defaultAnimation: 2,
           key: Date.now(),
+          showInfo: false,
+          infoContent: (
+            <form onSubmit={this.handleSubmit}>
+              <input type="text" placeholder="Type" />
+              <input type="number" placeholder="Amount" />
+              <input type="number" placeholder="Radius" />
+              <input type="date" placeholder="Expiration day" />
+              <input type="time" placeholder="Expiration time" />
+              <input type="health" placeholder="Health" />
+              <input type="submit" placeholder="Submit" />
+            </form>
+          ),
         },
       ];
 
@@ -40,14 +60,65 @@ export default class Game extends Component {
     }
   }
 
-  handleMarkerClick(targetMarker) {
-    console.log(targetMarker);
-    if (this.isAuthenticated()) {
-      const nextMarkers = this.state.markers.filter(marker => marker !== targetMarker);
-        this.setState({
-          markers: nextMarkers,
-        });
+  handleMarkerClick(tm) {
+    this.setState({
+      markers: this.state.markers.map(marker => {
+        if (marker === tm) {
+          marker.showInfo = true;
+        }
+        return marker;
+      }),
+    });
+  }
+
+  handleMarkerClose(tm) {
+    this.setState({
+      markers: this.state.markers.map(marker => {
+        if (marker === tm) {
+          marker.showInfo = false;
+        }
+        return marker;
+      }),
+    });
+  }
+
+  handleSubmit(e) {
+    if (!this.isAuthenticated()) { return null }
+
+    e.preventDefault();
+    const values = e.target.parentElement.children.map((e, i) => {
+      return i < 6 ? e.value : 0;
+    });
+
+    if (!values[0])  values[0] = 'generic';
+
+    if (!values[1]) values[1] = 100;
+
+    if (!values[2]) values[2] = Math.sqrt(values[1]) * 500;
+
+    if (!values[3] || !values[4]) {
+      values[6] = moment().add(1, 'days').format();
+    } else {
+      values[6] = `${values[3]} ${values[4]}:00-00:00`;
     }
+
+    if (!values[5]) values[5] = 100;
+
+    const normalized = {
+      type: values[0],
+      amount: values[1],
+      radius: values[2],
+      expiration: values[6],
+      health: values[5],
+    };
+
+    axios.post('/markers/new' normalized)
+      .then((res) => {
+        this.setState(res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }
 
   componentDidMount() {
@@ -63,8 +134,21 @@ export default class Game extends Component {
         const markers = res.data.map((e) => {
           return {
             position: new window.google.maps.LatLng(e.latitude, e.longitude),
+            radius: e.radius,
             defaultAnimation: 2,
             key: Math.random(),
+            showInfo: false,
+            infoContent: (
+              <form onSubmit={this.handleSubmit}>
+                <input type="text" placeholder="Type" />
+                <input type="number" placeholder="Amount" />
+                <input type="number" placeholder="Radius" />
+                <input type="date" placeholder="Expiration day"/>
+                <input type="time" placeholder="Expiration time" />
+                <input type="health" placeholder="Health" />
+                <button type="submit" placeholder="Submit" />
+              </form>
+            ),
           }
         });
 
@@ -83,12 +167,13 @@ export default class Game extends Component {
                 className={Styles.inventory}>Inventory</Link>
           <Link to="/"
                 className={Styles.logout}
-                onClick={this.handleLogout} >Logout</Link>
+                onClick={this.handleLogout}>Logout</Link>
         </div>
         <div className={Styles.map}>
           <Map markers={this.state.markers}
                onMapClick={this.handleMapClick}
-               handleMarker={this.handleMarkerClick}>
+               onMarkerClick={this.handleMarkerClick}
+               onMarkerClose={this.handleMarkerClose}>
           </Map>
         </div>
         <div className={Styles.mine}>

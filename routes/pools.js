@@ -24,14 +24,34 @@ router.get('/all', authenticate, (req, res, next) => {
       res.send(pools);
     })
     .catch((err) => {
-      console.error(err);
+      next(err);
     });
 });
 
 router.get('/near', authenticate, (req, res, next) => {
   const { userId } = req.token;
+
   if (!userId) { return next('Not a valid user') }
 
+  const { lat, lng } = req.body;
+
+  knex('pools')
+    .where(st.dwithin('geog', st.makePoint(lng, lat), 'radius'))
+    .then((rows) => {
+      res.send(camelizeKeys(rows));
+    })
+    .catch((err) => {
+      next(err);
+    });
+});
+
+router.post('/new', authenticate, (req, res, next) => {
+  const { userId } = req.token;
+
+  if (!userId) { return next('Not a valid user') }
+
+  const { type, amount. radius, expiration, health } = req.body;
+  const pool = { type, amount, radius, expiration, health };
 });
 
 module.exports = router;

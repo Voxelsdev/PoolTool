@@ -11,7 +11,6 @@ exports.seed = function(knex) {
         longitude: 86.923828,
         expiration: new Date('2020-12-23 15:41:22 UTC'),
         health: 1000,
-        max_health: 1000,
         created_at: new Date('2016-06-29 14:26:16 UTC'),
         updated_at: new Date('2016-06-29 14:26:16 UTC')
       }, {
@@ -22,7 +21,6 @@ exports.seed = function(knex) {
         longitude: -122.333713,
         expiration: new Date('2020-12-23 15:41:22 UTC'),
         health: 1000,
-        max_health: 1000,
         created_at: new Date('2016-06-29 14:26:16 UTC'),
         updated_at: new Date('2016-06-29 14:26:16 UTC')
       }, {
@@ -33,7 +31,6 @@ exports.seed = function(knex) {
         longitude: -122.325211,
         expiration: new Date('2020-12-23 15:41:22 UTC'),
         health: 1000,
-        max_health: 1000,
         created_at: new Date('2016-06-29 14:26:16 UTC'),
         updated_at: new Date('2016-06-29 14:26:16 UTC')
       }]);

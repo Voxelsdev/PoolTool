@@ -13,7 +13,7 @@ const compiler = webpack(config);
 const passport = require('passport');
 
 app.use(cookieParser());
-app.use(bodyParser());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
