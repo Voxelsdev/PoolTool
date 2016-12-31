@@ -13,6 +13,7 @@ const compiler = webpack(config);
 const passport = require('passport');
 
 app.use(cookieParser());
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 if (process.env.NODE_ENV !== 'production') {

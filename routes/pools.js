@@ -8,10 +8,13 @@ const { camelizeKeys, decamelizeKeys } = require('humps');
 const boom = require('boom');
 const moment = require('moment');
 
+const ev = require('express-validation');
+const validations = require('../validations/pools.js');
 const authenticate = require('../utils/authentication.js');
 
 router.get('/all', authenticate, (req, res, next) => {
   const { userId } = req.token;
+
   if (!userId) { return next('Not a valid user'); }
 
   knex('pools')
@@ -45,13 +48,37 @@ router.get('/near', authenticate, (req, res, next) => {
     });
 });
 
-router.post('/new', authenticate, (req, res, next) => {
+router.post('/new', authenticate, ev(validations.post), (req, res, next) => {
   const { userId } = req.token;
 
   if (!userId) { return next('Not a valid user') }
 
-  const { type, amount. radius, expiration, health } = req.body;
-  const pool = { type, amount, radius, expiration, health };
+  knex('users')
+    .where('auth_id', userId)
+    .first()
+    .then((row) => {
+      const user = camelizeKeys(row);
+
+      if (user.isAdmin) {
+        const { type, amount, radius, expiration, health, latitude, longitude } = req.body;
+        const pool = { type, amount, radius, expiration, health, latitude, longitude };
+
+        knex('pools').insert(Object.assign(decamelizeKeys(pool), {
+          geog: st.makePoint(pool.longitude, pool.latitude),
+        }), '*')
+          .then((pool) => {
+            return pool;
+          })
+          .catch((err) => {
+            next(err);
+          });
+      } else {
+        res.send('Unauthorized');
+      }
+    })
+    .catch((err) => {
+      next(err);
+    });
 });
 
 module.exports = router;

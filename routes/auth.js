@@ -46,7 +46,7 @@ router.get('/google',
 
 router.get('/google/callback',
   passport.authenticate('google',
-  { failureRedirect: '/'}), (req, res, next) => {
+  { failureRedirect: '/' }), (req, res, next) => {
   const user = req.user.profile;
   const email = user.emails[0].value;
   const avatarUrl = user.photos[0].value;

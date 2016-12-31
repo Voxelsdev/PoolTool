@@ -11,13 +11,11 @@ export default class Game extends Component {
     this.state = {
       userType: 'joe shmoe',
       markers: [],
-      type: '',
-      amount: -Infinity,
-      radius: -Infinity,
-      expDay: '',
-      expTime: '',
-      Health: -Infinity,
+      currentLat: 0,
+      currentLng: 0,
     }
+
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
     this.handleMapClick = this.handleMapClick.bind(this);
     this.isAuthenticated = this.isAuthenticated.bind(this);
@@ -56,7 +54,11 @@ export default class Game extends Component {
         },
       ];
 
-      this.setState({ markers: newMarkers });
+      this.setState({
+        markers: newMarkers,
+        currentLat: event.latLng.lat().toFixed(15),
+        currentLng: event.latLng.lng().toFixed(15),
+      });
     }
   }
 
@@ -68,6 +70,8 @@ export default class Game extends Component {
         }
         return marker;
       }),
+      currentLat: tm.position.lat().toFixed(15),
+      currentLng: tm.position.lng().toFixed(15),
     });
   }
 
@@ -86,18 +90,21 @@ export default class Game extends Component {
     if (!this.isAuthenticated()) { return null }
 
     e.preventDefault();
-    const values = e.target.parentElement.children.map((e, i) => {
-      return i < 6 ? e.value : 0;
-    });
+
+    const values = [];
+
+    for (let i = 0; i < e.target.children.length - 1; i++) {
+      values.push(e.target.children[i].value);
+    }
 
     if (!values[0])  values[0] = 'generic';
 
     if (!values[1]) values[1] = 100;
 
-    if (!values[2]) values[2] = Math.sqrt(values[1]) * 500;
+    if (!values[2]) values[2] = Math.round(Math.sqrt(values[1]) * 500);
 
     if (!values[3] || !values[4]) {
-      values[6] = moment().add(1, 'days').format();
+      values[6] = Moment().add(1, 'days').format();
     } else {
       values[6] = `${values[3]} ${values[4]}:00-00:00`;
     }
@@ -110,11 +117,13 @@ export default class Game extends Component {
       radius: values[2],
       expiration: values[6],
       health: values[5],
+      latitude: this.state.currentLat,
+      longitude: this.state.currentLng,
     };
 
-    axios.post('/markers/new' normalized)
+    axios.post('/markers/new', normalized)
       .then((res) => {
-        this.setState(res.data);
+        //this.setState(res.data);
       })
       .catch((err) => {
         console.error(err);
