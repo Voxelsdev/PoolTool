@@ -31,7 +31,7 @@ router.get('/all', authenticate, (req, res, next) => {
     });
 });
 
-router.get('/near', authenticate, (req, res, next) => {
+router.post('/near', authenticate, (req, res, next) => {
   const { userId } = req.token;
 
   if (!userId) { return next('Not a valid user') }

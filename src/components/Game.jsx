@@ -101,7 +101,7 @@ export default class Game extends Component {
 
     if (!values[1]) values[1] = 100;
 
-    if (!values[2]) values[2] = Math.round(Math.sqrt(values[1]) * 500);
+    if (!values[2]) values[2] = Math.round(Math.sqrt(values[1]) * 25);
 
     if (!values[3] || !values[4]) {
       values[6] = Moment().add(1, 'days').format();
@@ -162,6 +162,13 @@ export default class Game extends Component {
         });
 
         this.setState({ markers });
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+    axios.post('/markers/near', { lat: 47.599660, lng: -122.332946})
+      .then((res) => {
+        console.log(res.data);
       })
       .catch((err) => {
         console.error(err);
