@@ -166,13 +166,6 @@ export default class Game extends Component {
       .catch((err) => {
         console.error(err);
       });
-    axios.post('/markers/near', { lat: 47.599660, lng: -122.332946})
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
   }
 
   render() {
@@ -189,7 +182,8 @@ export default class Game extends Component {
           <Map markers={this.state.markers}
                onMapClick={this.handleMapClick}
                onMarkerClick={this.handleMarkerClick}
-               onMarkerClose={this.handleMarkerClose}>
+               onMarkerClose={this.handleMarkerClose}
+               isAuth={this.isAuthenticated}>
           </Map>
         </div>
         <div className={Styles.mine}>

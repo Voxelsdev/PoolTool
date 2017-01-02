@@ -40,6 +40,7 @@ router.post('/near', authenticate, (req, res, next) => {
 
   knex('pools')
     .where(st.dwithin('geog', st.makePoint(lng, lat), 'radius'))
+    .andWhere('expiration', '>', moment().format())
     .then((rows) => {
       res.send(camelizeKeys(rows));
     })
