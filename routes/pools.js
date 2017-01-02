@@ -42,7 +42,21 @@ router.post('/near', authenticate, (req, res, next) => {
     .where(st.dwithin('geog', st.makePoint(lng, lat), 'radius'))
     .andWhere('expiration', '>', moment().format())
     .then((rows) => {
-      res.send(camelizeKeys(rows));
+      const pools = camelizeKeys(rows);
+
+      const toSend = pools.map((e, i) => {
+        const newPool = e;
+
+        delete newPool.createdAt;
+        delete newPool.updatedAt;
+        delete newPool.expiration;
+        delete newPool.geog;
+        delete newPool.id;
+
+        return newPool;
+      });
+
+      res.send(toSend);
     })
     .catch((err) => {
       next(err);

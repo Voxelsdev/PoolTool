@@ -11,7 +11,8 @@ exports.seed = function(knex, Promise) {
         durability: 100000,
         price: 100.00,
         created_at: new Date('2016-06-29 14:26:16 UTC'),
-        updated_at: new Date('2016-06-29 14:26:16 UTC')
+        updated_at: new Date('2016-06-29 14:26:16 UTC'),
+        type: 'normal',
       }, {
         id: 2,
         tool_name: 'shovel',
@@ -20,7 +21,8 @@ exports.seed = function(knex, Promise) {
         durability: 100000,
         price: 10.00,
         created_at: new Date('2016-06-29 14:26:16 UTC'),
-        updated_at: new Date('2016-06-29 14:26:16 UTC')
+        updated_at: new Date('2016-06-29 14:26:16 UTC'),
+        type: 'normal',
       }, {
         id: 3,
         tool_name: 'hammer',
@@ -29,7 +31,8 @@ exports.seed = function(knex, Promise) {
         durability: 100000,
         price: 15.00,
         created_at: new Date('2016-06-29 14:26:16 UTC'),
-        updated_at: new Date('2016-06-29 14:26:16 UTC')
+        updated_at: new Date('2016-06-29 14:26:16 UTC'),
+        type: 'fire',
       }]);
     })
     .then(() => {

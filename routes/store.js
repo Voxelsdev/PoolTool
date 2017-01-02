@@ -19,9 +19,19 @@ router.get('/all', authenticate, (req, res, next) => {
     .then((rows) => {
       if (!rows) { throw boom.create('No tools found, please check connection')}
 
-      const pools = camelizeKeys(rows);
+      const tools = camelizeKeys(rows);
 
-      res.send(pools);
+      const toSend = tools.map((e, i) => {
+        const newTool = e;
+
+        delete newTool.createdAt;
+        delete newTool.updatedAt;
+        delete newTool.id;
+
+        return newTool;
+      });
+
+      res.send(toSend);
     })
     .catch((err) => {
       console.error(err);

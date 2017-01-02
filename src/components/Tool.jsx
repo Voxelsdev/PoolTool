@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import Styles from './css/tool.css';
 
 export default class Tool extends Component {

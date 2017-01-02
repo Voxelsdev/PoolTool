@@ -5,7 +5,7 @@ exports.seed = function(knex) {
     .then(() => {
       return knex('pools').insert([{
         id: 1,
-        type: 'generic',
+        type: 'normal',
         amount: 500,
         radius: 432,
         latitude: 47.60608166549589,
@@ -17,7 +17,7 @@ exports.seed = function(knex) {
         geog: '0101000020E6100000010000F010955EC04A01821594CD4740',
       }, {
         id: 2,
-        type: 'generic',
+        type: 'normal',
         amount: 500,
         radius: 432,
         latitude: 47.60046478252194,
@@ -29,7 +29,7 @@ exports.seed = function(knex) {
         geog: '0101000020E61000000000003850955EC06EAAAD07DCCC4740',
       }, {
         id: 3,
-        type: 'generic',
+        type: 'normal',
         amount: 500,
         radius: 432,
         latitude: 47.60971011368495,
@@ -41,7 +41,7 @@ exports.seed = function(knex) {
         geog: '0101000020E610000001000078E2955EC09D2823FB0ACE4740',
       }, {
         id: 4,
-        type: 'generic',
+        type: 'normal',
         amount: 1000,
         radius: 791,
         latitude: 47.59894084200572,
@@ -53,7 +53,7 @@ exports.seed = function(knex) {
         geog: '0101000020E6100000000000945D955EC09E53F017AACC4740',
       }, {
         id: 5,
-        type: 'generic',
+        type: 'normal',
         amount: 500,
         radius: 559,
         latitude: 47.60364997609338,
@@ -65,7 +65,7 @@ exports.seed = function(knex) {
         geog: '0101000020E61000000000004E4A945EC0B0C6046744CD4740',
       }, {
         id: 6,
-        type: 'generic',
+        type: 'normal',
         amount: 500,
         radius: 559,
         latitude: 47.60336061629135,

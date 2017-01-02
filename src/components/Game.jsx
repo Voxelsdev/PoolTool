@@ -97,7 +97,7 @@ export default class Game extends Component {
       values.push(e.target.children[i].value);
     }
 
-    if (!values[0])  values[0] = 'generic';
+    if (!values[0])  values[0] = 'normal';
 
     if (!values[1]) values[1] = 100;
 

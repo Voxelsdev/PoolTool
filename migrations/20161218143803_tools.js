@@ -9,6 +9,7 @@ exports.up = (knex) => {
     table.integer('durability').notNullable().defaultTo(0);
     table.decimal('price').notNullable().defaultTo(0);
     table.string('icon_url').notNullable().defaultTo('');
+    table.string('type').notNullable().defaultTo('normal');
     table.timestamps(true, true);
   });
 };

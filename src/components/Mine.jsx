@@ -2,6 +2,7 @@ import React,  { Component } from 'react';
 import { Link } from 'react-router';
 import axios from 'axios';
 import Styles from './css/mine.css';
+import Pool from './Pool.jsx';
 
 export default class Mine extends Component {
   constructor() {
@@ -25,7 +26,7 @@ export default class Mine extends Component {
         })
         .catch((err) => {
           console.error(err);
-        })
+        });
     });
   }
 
@@ -37,7 +38,11 @@ export default class Mine extends Component {
                 className={Styles.inventory}>Inventory</Link>
         </div>
         <div className={Styles.main}>
-
+          {
+            this.state.nearby.map((e, i) => {
+              return (<Pool pool={e} key={i} />);
+            })
+          }
         </div>
         <div className={Styles.foot}>
           <Link to="/game"
