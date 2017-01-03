@@ -3,9 +3,11 @@
 
 const express = require('express');
 const app = express();
-const server = require('http').createServer(app);
+const server = require('http').Server(app);
 const io = require('socket.io')(server);
-console.log(io.sockets.on.toString());
+
+server.listen(8080);
+
 const knex = require('knex');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -17,7 +19,7 @@ const compiler = webpack(config);
 
 const passport = require('passport');
 
-io.sockets.on('connection', (socket) => {
+io.on('connection', (socket) => {
   socket.on('room', (room) => {
     socket.join(room);
     socket.in(room).on('message', (data) => {

@@ -35,8 +35,8 @@ export default class Main extends Component {
 
     this.setState({ loggedIn: isLoggedIn });
 
-    if (isLoggedIn && !isLoggingOut && window.location.href !== 'http://localhost:3000/game') {
-      window.location.href = '/game';
+    if (isLoggedIn && !isLoggingOut && location.href !== 'http://localhost:3000/game') {
+      location.href = '/game';
     }
 
     if (isLoggedIn && isLoggingOut) {
@@ -56,7 +56,7 @@ export default class Main extends Component {
   }
 
   handleConnection(room) {
-    const socket = io.connect();
+    const socket = io.connect('http://localhost:8080');
 
     socket.on('connect', () => {
       socket.emit('room', room);
