@@ -1,0 +1,60 @@
+.itemContainer {
+  min-height: 40%;
+  max-height: 40%;
+  border-bottom: 2px solid #C0B283;
+  margin: 5px 0px 5px 0px;
+}
+
+.nameContainer, .tierContainer, .durabilityContainer, .priceContainer, .typeContainer, .buyContainer {
+  display: inline-block;
+  box-sizing: border-box;
+  min-height: 33%;
+  max-height: 33%;
+  min-width: 50%;
+  max-width: 50%;
+  border-right: 1px solid #e2e2e2;
+  border-bottom: 1px solid #e2e2e2;
+}
+
+.tierContainer, .priceContainer {
+  border: none;
+  border-left: 1px solid #e2e2e2;
+  border-bottom: 1px solid #e2e2e2;
+}
+
+.typeContainer {
+  border-right: 2px solid #e2e2e2;
+}
+
+.name, .tier, .durability, .price, .type, .buy, .timeLeft {
+  text-align: center;
+  margin: 3px 0px 3px 0px;
+  text-transform: capitalize;
+  letter-spacing: 2px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #e2e2e2;
+}
+
+.buy {
+  min-width: 100%;
+  max-width: 100%;
+  color: #2d2d2d;
+  background-color: #C0B283;
+  border: none;
+  margin: 0;
+  height: 100%;
+}
+
+.buy:hover {
+  background-color: #2d2d2d;
+  color: #C0B283;
+}
+
+.buy:focus {
+  outline: none;
+}
+
+.key {
+  color: #C0B283;
+}

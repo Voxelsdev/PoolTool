@@ -149,13 +149,12 @@ export default class Game extends Component {
             showInfo: false,
             infoContent: (
               <form onSubmit={this.handleSubmit}>
-                <input type="text" placeholder="Type" />
-                <input type="number" placeholder="Amount" />
-                <input type="number" placeholder="Radius" />
-                <input type="date" placeholder="Expiration day"/>
-                <input type="time" placeholder="Expiration time" />
-                <input type="health" placeholder="Health" />
-                <button type="submit" placeholder="Submit" />
+                <input type="text" placeholder="Type" readOnly value={e.type} />
+                <input type="number" placeholder="Amount" readOnly={true} value={e.amount} />
+                <input type="number" placeholder="Radius" readOnly={true} value={e.radius} />
+                <input type="date" placeholder="Expiration day" readOnly={true} />
+                <input type="time" placeholder="Expiration time" readOnly={true} />
+                <input type="health" placeholder="Health" readOnly={true} value={e.health } />
               </form>
             ),
           }

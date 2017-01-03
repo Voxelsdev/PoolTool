@@ -26,7 +26,6 @@ router.get('/all', authenticate, (req, res, next) => {
 
         delete newTool.createdAt;
         delete newTool.updatedAt;
-        delete newTool.id;
 
         return newTool;
       });

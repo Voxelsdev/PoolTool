@@ -6,6 +6,8 @@ const knex = require('../knex.js');
 const boom = require('boom');
 const { camelizeKeys, decamelizeKeys } = require('humps');
 
+const moment = require('moment');
+
 const authenticate = require('../utils/authentication.js');
 
 router.get('/inventory', authenticate, (req, res, next) => {
@@ -52,24 +54,32 @@ router.post('/inventory', authenticate, (req, res, next) => {
   const { userId } = req.token;
   const { requestedTool } = req.body;
 
+  if (!userId || typeof userId !== 'string') {
+    return next('User ID is not valid');
+  }
+
+  if (!requestedTool || typeof requestedTool !== 'number') {
+    return next('The requested tool is not valid');
+  }
+
   knex('users')
     .where('auth_id', userId)
     .then((row) => {
       if (!row) {
         return next('No user found!');
       }
-      const user = camelizeKeys(row);
-
+      const user = camelizeKeys(row[0]);
       return user;
     })
     .then((user) => {
       knex('tools')
-        .where('tool_name', requestedTool)
+        .where('id', requestedTool)
+        .andWhere('expiration', '>', moment().format())
         .then((row) => {
           if (!row) {
             return next('No tool found!')
           }
-          const tool = camelizeKeys(row);
+          const tool = camelizeKeys(row[0]);
 
           return tool;
         })
@@ -85,7 +95,7 @@ router.post('/inventory', authenticate, (req, res, next) => {
               .then((user) => {
                 const newTool = decamelizeKeys({
                   toolId: tool.id,
-                  userId: userId,
+                  userId: user,
                   currentDurability: tool.durability
                 });
 
@@ -134,4 +144,3 @@ router.post('/inventory', authenticate, (req, res, next) => {
 });
 
 module.exports = router;
-// throw boom.create('stuff');
