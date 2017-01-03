@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { Match, Miss } from 'react-router';
 import axios from 'axios';
+import Notifications, { notify } from 'react-notify-toast';
+
+import io from 'socket.io-client';
+
 import Styles from './css/main.css'
 
 import Login from './Login.jsx';
@@ -16,6 +20,8 @@ export default class Main extends Component {
       loggedIn: false,
     }
     this.handleLoginState = this.handleLoginState.bind(this);
+    this.handleConnection = this.handleConnection.bind(this);
+    this.toast = this.toast.bind(this);
   }
 
   getCookie(name) {
@@ -49,6 +55,22 @@ export default class Main extends Component {
     }
   }
 
+  handleConnection(room) {
+    const socket = io.connect();
+
+    socket.on('connect', () => {
+      socket.emit('room', room);
+    });
+
+    socket.on('message', (data) => {
+      console.log('Incoming data: ', data);
+    });
+  }
+
+  toast(message, type, timeout) {
+    notify.show(message, type, timeout);
+  }
+
   componentDidMount() {
     this.handleLoginState(false, false);
   }
@@ -56,17 +78,23 @@ export default class Main extends Component {
   render() {
     return (
       <div className={Styles.main}>
+        <Notifications />
         <Match pattern="/" exactly render={() =>
            <Login handleLoginState={this.handleLoginState}></Login>
         }/>
         <Match pattern="/game" render={() =>
-          <Game handleLoginState={this.handleLoginState}></Game>
+          <Game handleLoginState={this.handleLoginState}
+                toast={this.toast}></Game>
         }/>
         <Match pattern="/inventory" render={() =>
           <Inventory></Inventory>
         }/>
-        <Match pattern="/store" component={Store} />
-        <Match pattern="/mine" component={Mine} />
+        <Match pattern="/store" render={() =>
+          <Store toast={this.toast}></Store>
+        }/>
+        <Match pattern="/mine" render={() =>
+          <Mine handleConnection={this.handleConnection}></Mine>
+        }/>
       </div>
     )
   }

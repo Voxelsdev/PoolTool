@@ -21,7 +21,6 @@ export default class Mine extends Component {
 
       axios.post('/markers/near', latLng)
         .then((res) => {
-          console.log(res.data);
           this.setState({ nearby: res.data });
         })
         .catch((err) => {
@@ -40,7 +39,11 @@ export default class Mine extends Component {
         <div className={Styles.main}>
           {
             this.state.nearby.map((e, i) => {
-              return (<Pool pool={e} key={i} />);
+              return (
+                <Pool pool={e}
+                      key={i}
+                      handleConnection={this.props.handleConnection}/>
+              );
             })
           }
         </div>

@@ -33,7 +33,9 @@ export default class Store extends Component {
           {
             this.state.tools.map((e, i) => {
               return (
-                <StoreItem key={i} item={e} />
+                <StoreItem key={i}
+                           item={e}
+                           toast={this.props.toast} />
               );
             })
           }

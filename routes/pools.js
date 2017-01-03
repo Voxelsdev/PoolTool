@@ -51,7 +51,6 @@ router.post('/near', authenticate, (req, res, next) => {
         delete newPool.updatedAt;
         delete newPool.expiration;
         delete newPool.geog;
-        delete newPool.id;
 
         return newPool;
       });

@@ -4,7 +4,6 @@ var webpack = require('webpack');
 module.exports = {
   devtool: 'cheap-module-eval-source-map',
   entry: [
-    // listen to code updates emitted by hot middleware:
     'webpack-hot-middleware/client',
     './src/index'
   ],
