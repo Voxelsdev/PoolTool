@@ -15,7 +15,7 @@ const authenticate = require('../utils/authentication.js');
 router.get('/all', authenticate, (req, res, next) => {
   const { userId } = req.token;
 
-  if (!userId) { return next('Not a valid user'); }
+  if (!userId) { throw boom.create(400, 'Bad Request') }
 
   knex('pools')
     .where('expiration', '>', moment().format())
@@ -29,6 +29,30 @@ router.get('/all', authenticate, (req, res, next) => {
     .catch((err) => {
       next(err);
     });
+});
+
+router.post('/specific', authenticate, (req, res, next) => {
+  const { userId } = req.token;
+  const { poolId } = req.body;
+
+  if (!userId || typeof userId !== 'string') { throw boom.create(400, 'Bad Request'); }
+
+  if (poolId < 0 || !poolId || typeof poolId !== 'number') { throw boom.create(400, 'Bad Request') }
+
+  knex('pools')
+    .where('id', poolId)
+    .andWhere('expiration', '>', moment().format())
+    .then((row) => {
+      if (!row) { return res.send('No pool found') }
+
+      const pool = camelizeKeys(row[0]);
+
+      delete pool.createdAt;
+      delete pool.updatedAt;
+      delete pool.geog;
+
+      res.send(pool)
+    })
 });
 
 router.post('/near', authenticate, (req, res, next) => {
@@ -49,7 +73,6 @@ router.post('/near', authenticate, (req, res, next) => {
 
         delete newPool.createdAt;
         delete newPool.updatedAt;
-        delete newPool.expiration;
         delete newPool.geog;
 
         return newPool;

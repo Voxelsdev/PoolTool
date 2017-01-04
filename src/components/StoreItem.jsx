@@ -32,13 +32,13 @@ export default class StoreItem extends Component {
         clearInterval(interval);
       } else {
 
-      duration = moment.duration(duration.asSeconds() - 1, 'seconds');
-      this.setState({
-        timer: `${duration.days()}d:
-                ${duration.hours()}h:
-                ${duration.minutes()}m:
-                ${duration.seconds()}s`,
-      });
+        duration = moment.duration(duration.asSeconds() - 1, 'seconds');
+        this.setState({
+          timer: `${duration.days()}d:
+                  ${duration.hours()}h:
+                  ${duration.minutes()}m:
+                  ${duration.seconds()}s`,
+        });
       }
     }, 1000);
   }

@@ -19,6 +19,7 @@ export default class Main extends Component {
     super(props);
     this.state = {
       loggedIn: false,
+      connectedPool: {},
     }
     this.handleLoginState = this.handleLoginState.bind(this);
     this.handleConnection = this.handleConnection.bind(this);
@@ -56,11 +57,15 @@ export default class Main extends Component {
     }
   }
 
-  handleConnection(room) {
+  handleConnection(pool) {
     const socket = io.connect('http://localhost:8080');
 
     socket.on('connect', () => {
-      socket.emit('room', room);
+      socket.emit('room', pool.id);
+
+      console.log(this.state.connectedPool);
+      this.setState({ connectedPool: pool });
+      console.log(this.state.connectedPool);
     });
 
     socket.on('message', (data) => {
@@ -97,7 +102,7 @@ export default class Main extends Component {
           <Mine handleConnection={this.handleConnection}></Mine>
         }/>
         <Match pattern="/start" render={() =>
-          <Mining></Mining>
+          <Mining poolid={this.state.connectedPool.id}></Mining>
         }/>
       </div>
     )

@@ -9,7 +9,7 @@ export default class Pool extends Component {
   }
 
   onConnect() {
-    this.props.handleConnection(this.props.pool.id);
+    this.props.handleConnection(this.props.pool);
   }
 
   render() {
