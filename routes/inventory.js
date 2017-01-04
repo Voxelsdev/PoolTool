@@ -14,7 +14,7 @@ router.get('/inventory', authenticate, (req, res, next) => {
   const { userId } = req.token;
 
   knex('tools_users')
-    .select('tools.id', 'tools.tool_name', 'tools.tier', 'tools.expiration', 'tools.durability')
+    .select('tools.id', 'tools.tool_name', 'tools.tier', 'tools.expiration', 'tools.durability', 'tools.type')
     .innerJoin('users', 'users.id', 'tools_users.user_id')
     .innerJoin('tools', 'tools.id', 'tools_users.tool_id')
     .where('users.auth_id', userId)
@@ -137,6 +137,29 @@ router.post('/inventory', authenticate, (req, res, next) => {
         .catch((err) => {
           next(err);
         });
+    })
+    .catch((err) => {
+      next(err);
+    });
+});
+
+router.post('/inventory/useable', authenticate, (req, res, next) => {
+  const { userId } = req.token;
+  const { type } = req.body;
+
+  if (!userId || typeof userId !== 'string') { throw boom.create('Not a valid user') }
+
+  if (!type || typeof type !== 'string') { throw boom.create('Not a valid tool') }
+
+  knex('tools_users')
+    .select('tools.id', 'tools.tool_name', 'tools.tier', 'tools.expiration', 'tools.durability', 'tools.type')
+    .innerJoin('users', 'users.id', 'tools_users.user_id')
+    .innerJoin('tools', 'tools.id', 'tools_users.tool_id')
+    .where('users.auth_id', userId)
+    .andWhere('tools.type', type)
+    .orderBy('tools.id', userId)
+    .then((rows) => {
+      res.send(camelizeKeys(rows));
     })
     .catch((err) => {
       next(err);

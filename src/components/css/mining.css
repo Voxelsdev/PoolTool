@@ -1,0 +1,35 @@
+.gameContainer {
+  min-height: 100%;
+  max-height: 100%;
+}
+
+.backContainer, .useContainer, .inventoryContainer {
+  display: inline-block;
+  box-sizing: border-box;
+  min-width: 100%;
+  max-width: 100%;
+}
+
+.healthContainer, .typeContainer, .numOthersContainer {
+  display: inline-block;
+  box-sizing: border-box;
+  min-width: 40%;
+  max-width: 40%;
+}
+
+.amountContainer, .timeLeftContainer, .rewardContainer {
+  display: inline-block;
+  box-sizing: border-box;
+  min-width: 60%;
+  max-width: 60%;
+}
+
+.numOthersContainer, .rewardContainer, .useContainer, .inventoryContainer, .backContainer {
+  min-height: 10vh;
+  max-height: 10vh;
+}
+
+.healthContainer, .amountContainer, .typeContainer, .timeLeftContainer {
+  min-height: 30vh;
+  max-height: 30vh;
+}

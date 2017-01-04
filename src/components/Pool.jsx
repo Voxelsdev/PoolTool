@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 import Styles from './css/pool.css';
 
 export default class Pool extends Component {
@@ -24,8 +25,9 @@ export default class Pool extends Component {
           <p className={Styles.health}>Health: {this.props.pool.health}</p>
         </div>
         <div className={Styles.mineContainer}>
-          <button className={Styles.mine}
-                  onClick={this.onConnect}>Mine!</button>
+          <Link to="/start"
+                className={Styles.mine}
+                onClick={this.onConnect}>Mine!</Link>
         </div>
       </div>
     );

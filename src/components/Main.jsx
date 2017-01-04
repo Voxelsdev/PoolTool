@@ -12,6 +12,7 @@ import Game from './Game.jsx';
 import Inventory from './Inventory.jsx';
 import Store from './Store.jsx';
 import Mine from './Mine.jsx';
+import Mining from './Mining.jsx';
 
 export default class Main extends Component {
   constructor(props) {
@@ -94,6 +95,9 @@ export default class Main extends Component {
         }/>
         <Match pattern="/mine" render={() =>
           <Mine handleConnection={this.handleConnection}></Mine>
+        }/>
+        <Match pattern="/start" render={() =>
+          <Mining></Mining>
         }/>
       </div>
     )

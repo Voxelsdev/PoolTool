@@ -36,6 +36,13 @@
   max-width: 100%;
 }
 
+.mineContainer {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+}
+
 .mine {
   min-width: 100%;
   max-width: 100%;
@@ -48,6 +55,8 @@
   letter-spacing: 2px;
   font-size: 15px;
   text-transform: uppercase;
+  text-decoration: none;
+  text-align: center;
 }
 
 .mine:hover {
