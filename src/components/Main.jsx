@@ -63,9 +63,7 @@ export default class Main extends Component {
     socket.on('connect', () => {
       socket.emit('room', pool.id);
 
-      console.log(this.state.connectedPool);
       this.setState({ connectedPool: pool });
-      console.log(this.state.connectedPool);
     });
 
     socket.on('message', (data) => {
@@ -102,7 +100,7 @@ export default class Main extends Component {
           <Mine handleConnection={this.handleConnection}></Mine>
         }/>
         <Match pattern="/start" render={() =>
-          <Mining poolid={this.state.connectedPool.id}></Mining>
+          <Mining pool={this.state.connectedPool}></Mining>
         }/>
       </div>
     )

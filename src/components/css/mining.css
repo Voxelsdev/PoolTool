@@ -15,6 +15,8 @@
   box-sizing: border-box;
   min-width: 40%;
   max-width: 40%;
+  border-right: 1px solid #e2e2e2;
+  border-bottom: 1px solid #e2e2e2;
 }
 
 .amountContainer, .timeLeftContainer, .rewardContainer {
@@ -22,6 +24,7 @@
   box-sizing: border-box;
   min-width: 60%;
   max-width: 60%;
+  border-bottom: 1px solid #e2e2e2;
 }
 
 .numOthersContainer, .rewardContainer, .useContainer, .inventoryContainer, .backContainer {
@@ -32,4 +35,66 @@
 .healthContainer, .amountContainer, .typeContainer, .timeLeftContainer {
   min-height: 30vh;
   max-height: 30vh;
+}
+
+.inventoryContainer {
+  border-top: 1px solid #e2e2e2;
+  border-bottom: 1px solid #e2e2e2;
+  overflow-x: scroll;
+}
+
+.health, .amount, .type, .timeLeft, .numOthers, .reward, .use, .amount2, .timeLeft2  {
+  margin: 0;
+  height: 100%;
+  width: inherit;
+  flex-shrink: 0;
+  flex-basis: 100%;
+	color: #e2e2e2;
+}
+
+.back {
+  min-width: 100%;
+  max-width: 100%;
+  color: #2d2d2d;
+  background-color: #C0B283;
+  border: none;
+  margin: 0;
+  height: 100%;
+  font-weight: 500;
+  letter-spacing: 2px;
+  font-size: 15px;
+  text-transform: uppercase;
+  text-decoration: none;
+  text-align: center;
+}
+
+.fullFlexy {
+  position: relative;
+  min-height: inherit;
+  max-height: inherit;
+  vertical-align: middle;
+  min-width: inherit;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+}
+
+#use {
+  border: none;
+  background-color: #C0B283;
+  color: #2d2d2d;
+  height: 100%;
+  width: 100%;
+}
+
+#use:hover {
+  background-color: #2d2d2d;
+	color: #C0B283;
+}
+
+#use:focus {
+	outline: none;
 }
