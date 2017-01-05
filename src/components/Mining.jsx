@@ -23,8 +23,7 @@ export default class Mining extends Component {
   }
 
   handleUse() {
-    console.log('use, gotta send tool used to room');
-    this.props.onUse(this.state.currentTool, this.state.user);
+    this.props.onUse(this.state.currentTool.id, this.state.currentTool.tier, this.state.user.id);
   }
 
   handleBack() {

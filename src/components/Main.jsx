@@ -75,15 +75,19 @@ export default class Main extends Component {
   }
 
   handleDisconnect(id) {
-    console.log('disconnected');
     socket.emit('leave', id);
   }
 
-  handleUse(tool, user) {
-    tool.toolId = tool.id;
-    user.userId = user.id;
-
-    const data = Object.assign(tool, user, this.state.connectedPool);
+  handleUse(toolId, toolTier, user) {
+    console.log(this.state.connectedPool);
+    const data = {
+      roomId: this.state.connectedPool.id,
+      roomAmount: this.state.connectedPool.amount,
+      roomHealth: this.state.connectedPool.health,
+      userId: user,
+      toolId,
+      toolTier,
+    };
 
     socket.emit('tool used', data);
   }
