@@ -14,6 +14,8 @@ import Store from './Store.jsx';
 import Mine from './Mine.jsx';
 import Mining from './Mining.jsx';
 
+const socket = io.connect('http://localhost:8080');
+
 export default class Main extends Component {
   constructor(props) {
     super(props);
@@ -23,6 +25,8 @@ export default class Main extends Component {
     }
     this.handleLoginState = this.handleLoginState.bind(this);
     this.handleConnection = this.handleConnection.bind(this);
+    this.handleDisconnect = this.handleDisconnect.bind(this);
+    this.handleUse = this.handleUse.bind(this);
     this.toast = this.toast.bind(this);
   }
 
@@ -37,9 +41,9 @@ export default class Main extends Component {
 
     this.setState({ loggedIn: isLoggedIn });
 
-    if (isLoggedIn && !isLoggingOut && location.href !== 'http://localhost:3000/game') {
+     if (isLoggedIn && !isLoggingOut && location.href === 'http://localhost:3000/') {
       location.href = '/game';
-    }
+     }
 
     if (isLoggedIn && isLoggingOut) {
       axios('/auth/logout')
@@ -58,17 +62,30 @@ export default class Main extends Component {
   }
 
   handleConnection(pool) {
-    const socket = io.connect('http://localhost:8080');
+    socket.emit('room', pool.id);
 
-    socket.on('connect', () => {
-      socket.emit('room', pool.id);
+    const connectedPool = Object.assign({
+      currentHealth: pool.health,
+      currentAmount: pool.amount,
+    }, pool);
 
-      this.setState({ connectedPool: pool });
+    this.setState({
+      connectedPool,
     });
+  }
 
-    socket.on('message', (data) => {
-      console.log('Incoming data: ', data);
-    });
+  handleDisconnect(id) {
+    console.log('disconnected');
+    socket.emit('leave', id);
+  }
+
+  handleUse(tool, user) {
+    tool.toolId = tool.id;
+    user.userId = user.id;
+
+    const data = Object.assign(tool, user, this.state.connectedPool);
+
+    socket.emit('tool used', data);
   }
 
   toast(message, type, timeout) {
@@ -100,7 +117,9 @@ export default class Main extends Component {
           <Mine handleConnection={this.handleConnection}></Mine>
         }/>
         <Match pattern="/start" render={() =>
-          <Mining pool={this.state.connectedPool}></Mining>
+          <Mining pool={this.state.connectedPool}
+                  onDisconnect={this.handleDisconnect}
+                  onUse={this.handleUse}></Mining>
         }/>
       </div>
     )

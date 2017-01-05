@@ -2,8 +2,6 @@
   display: inline-block;
   margin: 0;
   border-left: 1px solid #e2e2e2;
-  min-width: 25%;
-  max-width: 25%;
   height: inherit;
 }
 

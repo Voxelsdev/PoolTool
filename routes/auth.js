@@ -28,7 +28,7 @@ router.get('/user', authenticate, (req, res, next) => {
     .where('auth_id', userId)
     .then((userRow) => {
       if (userRow) {
-        return res.send(true);
+        return res.send(camelizeKeys(userRow[0]));
       }
       return res.send(false);
     })

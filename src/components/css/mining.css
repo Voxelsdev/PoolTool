@@ -7,7 +7,6 @@
   display: inline-block;
   box-sizing: border-box;
   min-width: 100%;
-  max-width: 100%;
 }
 
 .healthContainer, .typeContainer, .numOthersContainer {
@@ -40,7 +39,10 @@
 .inventoryContainer {
   border-top: 1px solid #e2e2e2;
   border-bottom: 1px solid #e2e2e2;
-  overflow-x: scroll;
+  white-space: nowrap;
+  max-width: 100%;
+  overflow: scroll;
+  overflow-y: hidden;
 }
 
 .health, .amount, .type, .timeLeft, .numOthers, .reward, .use, .amount2, .timeLeft2  {

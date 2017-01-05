@@ -14,6 +14,7 @@ export default class Mining extends Component {
       inventory: [],
       timer: '',
       currentTool: {},
+      user: {},
     };
 
     this.handleUse = this.handleUse.bind(this);
@@ -23,21 +24,19 @@ export default class Mining extends Component {
 
   handleUse() {
     console.log('use, gotta send tool used to room');
-    this.props.onUse(currentTool);
+    this.props.onUse(this.state.currentTool, this.state.user);
   }
 
   handleBack() {
-    console.log('back, gotta disconnect');
-    this.props.onDisconnect();
+    this.props.onDisconnect(this.props.pool.id);
   }
 
   handleToolSelect(tool) {
-    console.log('butts');
     this.setState({ currentTool: tool });
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props !== nextProps) {
+    if (this.props.pool !== nextProps.pool) {
       axios.post('/users/inventory/useable', { type: nextProps.pool.type })
         .then((res) => {
           this.setState({ inventory: res.data });
@@ -60,9 +59,44 @@ export default class Mining extends Component {
           }, 1000);
         })
         .catch((err) => {
-        console.error(err);
+          console.error(err);
         });
     }
+  }
+
+  componentWillMount() {
+    axios.get('/auth/user')
+      .then((res) => {
+        this.setState({ user: res.data });
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+
+    axios.post('/users/inventory/useable', { type: this.props.pool.type })
+      .then((res) => {
+        this.setState({ inventory: res.data });
+
+        const currentTime = moment(new Date().getTime(), 'x');
+        const expiration = new Date(this.props.pool.expiration).getTime();
+        let timeLeft = expiration - currentTime;
+        let duration = moment.duration(timeLeft * 1000, 'milliseconds');
+        let timer = '';
+
+        let time = setInterval(() => {
+          if (duration.asMilliseconds() <= 0 || location.href !== 'http://localhost:3000/start') {
+            clearInterval(time);
+          } else {
+            duration = moment.duration(duration.asMilliseconds() - 1000, 'milliseconds');
+            this.setState({
+              timer: moment(duration.asMilliseconds()).format('d[d]:h[h]:mm[m]:ss[s]'),
+            });
+          }
+        }, 1000);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }
 
   render() {
@@ -70,18 +104,20 @@ export default class Mining extends Component {
       <div className={Styles.gameContainer}>
         <div className={Styles.healthContainer}>
           <div className={Styles.fullFlexy}>
-            <p className={Styles.health}>Health: {/*this.props.socketPool.currentHealth*/42} / {this.props.pool.health}</p>
+            <p className={Styles.health}>Health:</p>
+            <p className={Styles.health}>{this.props.pool.currentHealth} / {this.props.pool.health}</p>
           </div>
         </div>
         <div className={Styles.amountContainer}>
           <div className={Styles.fullFlexy}>
             <p className={Styles.amount}>Amount remaining:</p>
-            <p className={Styles.amount2}>{/*this.props.socketPool.amount*/42} / {this.props.pool.amount}</p>
+            <p className={Styles.amount2}>{this.props.pool.currentAmount} / {this.props.pool.amount}</p>
           </div>
         </div>
         <div className={Styles.typeContainer}>
           <div className={Styles.fullFlexy}>
-            <p className={Styles.type}>Type: {this.props.pool.type}</p>
+            <p className={Styles.type}>Type:</p>
+            <p className={Styles.type}>{this.props.pool.type}</p>
           </div>
         </div>
         <div className={Styles.timeLeftContainer}>

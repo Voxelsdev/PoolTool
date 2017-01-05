@@ -22,9 +22,14 @@ const passport = require('passport');
 io.on('connection', (socket) => {
   socket.on('room', (room) => {
     socket.join(room);
-    socket.in(room).on('message', (data) => {
+
+    socket.in(room).on('tool used', (data) => {
       console.log(data);
     });
+  });
+
+  socket.on('leave', (room) => {
+    socket.leave(room);
   });
 });
 
