@@ -18,6 +18,7 @@ const config = require('./webpack.config.dev');
 const compiler = webpack(config);
 
 const passport = require('passport');
+const rp = require('request-promise');
 
 const rooms = {};
 

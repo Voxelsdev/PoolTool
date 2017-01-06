@@ -31,6 +31,7 @@ export default class Mining extends Component {
   }
 
   handleToolSelect(tool) {
+    this.props.toast(`${tool.toolName}!`, 'warning', 1000);
     this.setState({ currentTool: tool });
   }
 
@@ -64,6 +65,10 @@ export default class Mining extends Component {
   }
 
   componentWillMount() {
+    window.addEventListener('beforeunload', () => {
+      this.handleBack();
+    });
+
     axios.get('/auth/user')
       .then((res) => {
         this.setState({ user: res.data });

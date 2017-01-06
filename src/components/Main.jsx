@@ -133,7 +133,8 @@ export default class Main extends Component {
         <Match pattern="/start" render={() =>
           <Mining pool={this.state.connectedPool}
                   onDisconnect={this.handleDisconnect}
-                  onUse={this.handleUse}></Mining>
+                  onUse={this.handleUse}
+                  toast={this.toast}></Mining>
         }/>
       </div>
     )
