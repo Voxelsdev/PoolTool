@@ -52,7 +52,7 @@ export default class Mining extends Component {
             } else {
               duration = moment.duration(duration.asMilliseconds() - 1000, 'milliseconds');
               this.setState({
-                timer: moment(duration.asMilliseconds()).format('d[d]:h[h]:mm[m]:ss[s]'),
+                timer: moment(duration.asMilliseconds()).format('d[d]:[ ]h[h]:[ ]mm[m]:[ ]ss[s]'),
               });
             }
           }, 1000);
@@ -88,7 +88,7 @@ export default class Mining extends Component {
           } else {
             duration = moment.duration(duration.asMilliseconds() - 1000, 'milliseconds');
             this.setState({
-              timer: moment(duration.asMilliseconds()).format('d[d]:h[h]:mm[m]:ss[s]'),
+              timer: moment(duration.asMilliseconds()).format('d[d]:[ ]h[h]:[ ]mm[m]:[ ]ss[s]'),
             });
           }
         }, 1000);
@@ -127,12 +127,12 @@ export default class Mining extends Component {
         </div>
         <div className={Styles.numOthersContainer}>
           <div className={Styles.fullFlexy}>
-            <p className={Styles.numOthers}># Players: {42}</p>
+            <p className={Styles.numOthers}># Players: {this.props.pool.numPlayers}</p>
           </div>
         </div>
         <div className={Styles.rewardContainer}>
           <div className={Styles.fullFlexy}>
-            <p className={Styles.reward}>Reward: {42}</p>
+            <p className={Styles.reward}>Reward: {this.props.pool.reward}</p>
           </div>
         </div>
         <div className={Styles.useContainer}>

@@ -27,7 +27,7 @@ export default class Pool extends Component {
         <div className={Styles.mineContainer}>
           <Link to="/start"
                 className={Styles.mine}
-                onClick={this.onConnect}>Mine!</Link>
+                onClick={this.onConnect}>Click Me To Mine this pool!</Link>
         </div>
       </div>
     );

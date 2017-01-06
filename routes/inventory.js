@@ -13,6 +13,8 @@ const authenticate = require('../utils/authentication.js');
 router.get('/inventory', authenticate, (req, res, next) => {
   const { userId } = req.token;
 
+  if (!userId || typeof userId !== 'string') { throw boom.create(400, 'Bad Request') }
+
   knex('tools_users')
     .select('tools.id', 'tools.tool_name', 'tools.tier', 'tools.expiration', 'tools.durability', 'tools.type')
     .innerJoin('users', 'users.id', 'tools_users.user_id')
@@ -31,6 +33,8 @@ router.get('/inventory', authenticate, (req, res, next) => {
 
 router.get('/type', authenticate, (req, res, next) => {
   const { userId } = req.token;
+
+  if (!userId || typeof userId !== 'string') { throw boom.create(400, 'Bad Request') }
 
   knex('users')
     .where('auth_id', userId)
@@ -54,9 +58,7 @@ router.post('/inventory', authenticate, (req, res, next) => {
   const { userId } = req.token;
   const { requestedTool } = req.body;
 
-  if (!userId || typeof userId !== 'string') {
-    return next('User ID is not valid');
-  }
+  if (!userId || typeof userId !== 'string') { throw boom.create(400, 'Bad Request') }
 
   if (!requestedTool || typeof requestedTool !== 'number') {
     return next('The requested tool is not valid');
@@ -147,9 +149,9 @@ router.post('/inventory/useable', authenticate, (req, res, next) => {
   const { userId } = req.token;
   const { type } = req.body;
 
-  if (!userId || typeof userId !== 'string') { throw boom.create('Not a valid user') }
+  if (!userId || typeof userId !== 'string') { throw boom.create(400, 'Bad Request') }
 
-  if (!type || typeof type !== 'string') { throw boom.create('Not a valid tool') }
+  if (!type || typeof type !== 'string') { throw boom.create(400, 'Bad Request') }
 
   knex('tools_users')
     .select('tools.id', 'tools.tool_name', 'tools.tier', 'tools.expiration', 'tools.durability', 'tools.type')

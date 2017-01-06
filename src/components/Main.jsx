@@ -64,6 +64,17 @@ export default class Main extends Component {
   handleConnection(pool) {
     socket.emit('room', pool.id);
 
+    socket.on('new information', (data) => {
+      const nextPool = this.state.connectedPool;
+
+      nextPool.currentAmount = data.currentAmount;
+      nextPool.currentHealth = data.currentHealth;
+      nextPool.reward = data.reward;
+      nextPool.numPlayers = data.numPlayers;
+
+      this.setState({ connectedPool: nextPool });
+    });
+
     const connectedPool = Object.assign({
       currentHealth: pool.health,
       currentAmount: pool.amount,
@@ -79,7 +90,6 @@ export default class Main extends Component {
   }
 
   handleUse(toolId, toolTier, user) {
-    console.log(this.state.connectedPool);
     const data = {
       roomId: this.state.connectedPool.id,
       roomAmount: this.state.connectedPool.amount,
