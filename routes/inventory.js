@@ -20,6 +20,7 @@ router.get('/inventory', authenticate, (req, res, next) => {
     .innerJoin('users', 'users.id', 'tools_users.user_id')
     .innerJoin('tools', 'tools.id', 'tools_users.tool_id')
     .where('users.auth_id', userId)
+    .andWhere('tools_users.current_durability', '>', 0)
     .orderBy('tools.id', 'DESC')
     .then((rows) => {
       const tools = camelizeKeys(rows);
@@ -90,6 +91,10 @@ router.post('/inventory', authenticate, (req, res, next) => {
             const newBalance = user.balance - tool.price;
 
             knex('users')
+              .where('id', 1)
+              .increment('balance', tool.price);
+
+            knex('users')
               .where('auth_id', userId)
               .update({
                 balance: newBalance
@@ -114,6 +119,10 @@ router.post('/inventory', authenticate, (req, res, next) => {
                   .catch((err) => {
                     console.error('Insert failed: rolling back.');
                     console.error(err);
+
+                    knex('users')
+                      .where('id', 1)
+                      .decrement('balance', tool.price);
 
                     knex('users')
                       .where('auth_id', userId)
@@ -159,6 +168,7 @@ router.post('/inventory/useable', authenticate, (req, res, next) => {
     .innerJoin('tools', 'tools.id', 'tools_users.tool_id')
     .where('users.auth_id', userId)
     .andWhere('tools.type', type)
+    .andWhere('tools_users.current_durability', '>', 0)
     .orderBy('tools.id', userId)
     .then((rows) => {
       res.send(camelizeKeys(rows));

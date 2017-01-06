@@ -24,7 +24,7 @@ export default function Map (props) {
               }}
             >
               {props.markers.map((marker, index) => {
-                if (props.isAuth()) {
+                if (!props.isAuth()) {
                   return (
                    <Circle
                      center={{ lat: marker.position.lat(), lng: marker.position.lng() }}

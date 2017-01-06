@@ -34,6 +34,7 @@ function handleUse(data) {
     rooms[roomId].currentHealth -= toolTier;
     rooms[roomId].users[userId].reward += Math.round(poolAmount * percent);
     rooms[roomId].currentAmount -= Math.round(poolAmount * percent);
+    rooms[roomId].users[userId].toolsUsed[toolId].durability++;
 
     const toSend = {
       currentHealth: rooms[roomId].currentHealth,
@@ -48,6 +49,7 @@ function handleUse(data) {
     rooms[roomId].currentHealth = 0;
     rooms[roomId].users[userId].reward += poolAmount;
     rooms[roomId].currentAmount = 0;
+    rooms[roomId].users[userId].toolsUsed[toolId].durability++;
 
     const toSend = {
       currentHealth: rooms[roomId].currentHealth,
@@ -57,6 +59,42 @@ function handleUse(data) {
     };
 
     io.sockets.in(roomId).emit('new information', toSend);
+
+    setTimeout(() => {
+      for (let user in rooms[roomId].users) {
+        const currentUserReward = rooms[roomId].users[user].reward;
+        const currentUserUsedTools = [];
+
+        for (let currentTool in rooms[roomId].users[user].toolsUsed) {
+          currentUserUsedTools.push({
+            toolId: currentTool,
+            durabilityUsed: rooms[roomId].users[user].toolsUsed[currentTool].durability,
+          });
+        }
+
+        const options = {
+          method: 'POST',
+          uri: process.env.HOST + '/sockets/end',
+          body: {
+            poolId: roomId,
+            userId: user,
+            reward: currentUserReward,
+            toolsUsed: currentUserUsedTools,
+            auth: process.env.AUTH,
+          },
+          json: true,
+        };
+
+        rp(options)
+          .then((res) => {
+            console.log(res);
+            console.log(roomId + ' closed');
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      }
+    }, 5000);
   }
 }
 
@@ -141,11 +179,13 @@ const auth = require('./routes/auth');
 const inventory = require('./routes/inventory');
 const store = require('./routes/store');
 const pool = require('./routes/pools');
+const socket = require('./routes/sockets');
 
 app.use('/auth', auth);
 app.use('/users', inventory);
 app.use('/store', store);
 app.use('/markers', pool);
+app.use('/sockets', socket);
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
