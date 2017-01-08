@@ -34,7 +34,7 @@ function handleUse(data) {
     rooms[roomId].currentHealth -= toolTier;
     rooms[roomId].users[userId].reward += Math.round(poolAmount * percent);
     rooms[roomId].currentAmount -= Math.round(poolAmount * percent);
-    rooms[roomId].users[userId].toolsUsed[toolId].durability++;
+    rooms[roomId].users[userId].toolsUsed[toolId].durabilityUsed++;
 
     const toSend = {
       currentHealth: rooms[roomId].currentHealth,
@@ -46,10 +46,10 @@ function handleUse(data) {
     io.sockets.in(roomId).emit('new information', toSend);
 
   } else {
+    rooms[roomId].currentAmount = 0;
     rooms[roomId].currentHealth = 0;
     rooms[roomId].users[userId].reward += poolAmount;
-    rooms[roomId].currentAmount = 0;
-    rooms[roomId].users[userId].toolsUsed[toolId].durability++;
+    rooms[roomId].users[userId].toolsUsed[toolId].durabilityUsed++;
 
     const toSend = {
       currentHealth: rooms[roomId].currentHealth,
@@ -60,7 +60,9 @@ function handleUse(data) {
 
     io.sockets.in(roomId).emit('new information', toSend);
 
-    setTimeout(() => {
+    if (!rooms[roomId].closed) {
+      rooms[roomId].closed = true;
+
       for (let user in rooms[roomId].users) {
         const currentUserReward = rooms[roomId].users[user].reward;
         const currentUserUsedTools = [];
@@ -68,7 +70,7 @@ function handleUse(data) {
         for (let currentTool in rooms[roomId].users[user].toolsUsed) {
           currentUserUsedTools.push({
             toolId: currentTool,
-            durabilityUsed: rooms[roomId].users[user].toolsUsed[currentTool].durability,
+            durabilityUsed: rooms[roomId].users[user].toolsUsed[currentTool].durabilityUsed,
           });
         }
 
@@ -86,15 +88,11 @@ function handleUse(data) {
         };
 
         rp(options)
-          .then((res) => {
-            console.log(res);
-            console.log(roomId + ' closed');
-          })
           .catch((err) => {
             console.error(err);
           });
       }
-    }, 5000);
+    }
   }
 }
 
@@ -109,6 +107,7 @@ io.on('connection', (socket) => {
           currentHealth: roomHealth,
           currentAmount: roomAmount,
           users: {},
+          closed: false,
         }
         rooms[roomId].users[userId] = {};
         const userInRoom = rooms[roomId].users[userId];
