@@ -58,6 +58,7 @@ router.get('/type', authenticate, (req, res, next) => {
 router.post('/inventory', authenticate, (req, res, next) => {
   const { userId } = req.token;
   const { requestedTool } = req.body;
+  const toSend = {};
 
   if (!userId || typeof userId !== 'string') { throw boom.create(400, 'Bad Request') }
 
@@ -67,92 +68,63 @@ router.post('/inventory', authenticate, (req, res, next) => {
 
   knex('users')
     .where('auth_id', userId)
+    .first()
     .then((row) => {
-      if (!row) {
-        return next('No user found!');
-      }
-      const user = camelizeKeys(row[0]);
+      if (!row) { return next() }
 
-      return user;
-    })
-    .then((user) => {
+      const user = camelizeKeys(row);
+
       knex('tools')
         .where('id', requestedTool)
         .andWhere('expiration', '>', moment().format())
-        .then((row) => {
-          if (!row) {
-            return next('No tool found!')
-          }
-          const tool = camelizeKeys(row[0]);
+        .first()
+        .then((row2) => {
+          if (!row2) { return next() }
 
-          return tool;
-        })
-        .then((tool) => {
+          const tool = camelizeKeys(row2);
+
           if (user.balance >= tool.price) {
             const newBalance = user.balance - tool.price;
 
-            knex('users')
-              .where('id', 1)
-              .increment('balance', tool.price);
-
-            knex('users')
-              .where('auth_id', userId)
-              .update({
-                balance: newBalance
-              })
-              .then((user) => {
-                const newTool = decamelizeKeys({
-                  toolId: tool.id,
-                  userId: user,
-                  currentDurability: tool.durability
-                });
-
-                const toSend = {
-                  balance: newBalance,
-                  tool: tool
-                };
-
-                knex('tools_users')
-                  .insert(newTool, '*')
-                  .then((row) => {
-                    res.send(toSend);
-                  })
-                  .catch((err) => {
-                    console.error('Insert failed: rolling back.');
-                    console.error(err);
-
-                    knex('users')
-                      .where('id', 1)
-                      .decrement('balance', tool.price);
-
-                    knex('users')
-                      .where('auth_id', userId)
-                      .update({
-                        balance: user.balance
-                      })
-                      .then((user) => {
-                        res.send('Rollback success');
-                      })
-                      .catch((err) => {
-                        console.error('Rollback Failed.');
-                        console.error(err);
+            return knex.transaction((trx) => {
+              return knex('users')
+                .where('is_admin', true)
+                .first()
+                .increment('balance', tool.price).transacting(trx)
+                .then(() => {
+                  return knex('users')
+                    .where('auth_id', userId)
+                    .update({
+                      balance: newBalance,
+                    }).transacting(trx)
+                    .then(() => {
+                      const newTool = decamelizeKeys({
+                        toolId: tool.id,
+                        userId: user.id,
+                        currentDurability: tool.durability
                       });
-                  });
-              })
-              .catch((err) => {
-                console.error(err);
-              });
+
+                      toSend.balance = newBalance;
+                      toSend.tool = tool;
+
+                     return knex('tools_users')
+                        .insert(newTool, '*').transacting(trx)
+                        .then(() => {
+                          res.send(toSend);
+                        });
+                    });
+                })
+                .then(trx.commit)
+                .catch(trx.rollback);
+            });
           } else {
-            res.send('You cannot afford this tool!');
+            res.send(false);
           }
-        })
-        .catch((err) => {
-          next(err);
         });
-    })
-    .catch((err) => {
-      next(err);
-    });
+      })
+      .catch((err) => {
+        next(err);
+      });
 });
 
 router.post('/inventory/useable', authenticate, (req, res, next) => {
