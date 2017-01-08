@@ -72,6 +72,7 @@ router.post('/inventory', authenticate, (req, res, next) => {
         return next('No user found!');
       }
       const user = camelizeKeys(row[0]);
+
       return user;
     })
     .then((user) => {

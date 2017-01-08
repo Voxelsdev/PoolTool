@@ -9,25 +9,31 @@ export default class Store extends Component {
     super();
     this.state = {
       tools: [],
+      balance: 0,
     };
+
+    this.handleBalanceChange = this.handleBalanceChange.bind(this);
   }
 
   componentDidMount() {
     axios.get('/store/all')
       .then((res) => {
-        this.setState({ tools: res.data });
+        this.setState({ tools: res.data.tools, balance: res.data.balance });
       })
       .catch((err) => {
         console.error(err);
       });
   }
 
+  handleBalanceChange(balance) {
+    this.setState({ balance });
+  }
+
   render() {
     return (
       <div className={Styles.fullHeight}>
         <div className={Styles.head}>
-          <Link to="/inventory"
-                className={Styles.inventory}>Back to Inventory</Link>
+          <a className={Styles.inventory}>Your balance: {this.state.balance}</a>
         </div>
         <div className={Styles.main}>
           {
@@ -35,14 +41,15 @@ export default class Store extends Component {
               return (
                 <StoreItem key={i}
                            item={e}
-                           toast={this.props.toast} />
+                           toast={this.props.toast}
+                           onBalanceChange={this.handleBalanceChange}/>
               );
             })
           }
         </div>
         <div className={Styles.foot}>
-          <Link to="/game"
-                className={Styles.back}>Back to Map</Link>
+          <Link to="/inventory"
+                className={Styles.back}>Inventory</Link>
         </div>
       </div>
     );

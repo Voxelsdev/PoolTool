@@ -15,6 +15,7 @@ export default class StoreItem extends Component {
   handleBuy() {
     axios.post('/users/inventory', { requestedTool: this.props.item.id })
       .then((res) => {
+        this.props.onBalanceChange(res.data.balance);
         this.props.toast(`${res.data.tool.toolName} bought!`, 'success', 1000);
       })
 			.catch((err) => { console.error(err); });
