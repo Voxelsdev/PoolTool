@@ -123,7 +123,7 @@ export default class Game extends Component {
 
     axios.post('/markers/new', normalized)
       .then((res) => {
-        this.props.toast('Position posted.');
+        this.props.toast('Posted', 'success', 2000);
       })
       .catch((err) => {
         console.error(err);

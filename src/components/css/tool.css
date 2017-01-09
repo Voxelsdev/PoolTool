@@ -6,55 +6,39 @@
   border-bottom: 1px solid #e2e2e2;
 }
 
-.iconContainer {
-  width: 19.4%;
-  height: 100%;
-  margin: 0;
-  display: inline-block;
+.row:nth-child(1) {
+  border-bottom: 1px dotted #e2e2e2;
 }
 
-.icon {
-  height: 100%;
-  width: 100%;
-}
-
-.secondContainer {
-  display: inline-block;
-  height: 100%;
-  width: 80%;
-  float: right;
-}
-
-.nameTierContainer {
+.row {
   height: 50%;
   width: 100%;
   display: inline-block;
 }
 
-.nameContainer {
+.leftContainer, .rightContainer {
   display: inline-block;
-  width: 80%;
+  width: 60%;
   height: 100%;
 }
 
-.name, .tier, .durability {
-  text-transform: uppercase;
+.rightContainer {
+  width: 39.6%;
+}
+
+.left, .right {
+  text-transform: capitalize;
   text-align: center;
   color: #e2e2e2;
   font-size: 12px;
+  border-right: 1px solid #e2e2e2;
 }
 
-.tierContainer {
-  display: inline-block;
-  width: 19.6%;
-  height: 100%;
+.right {
+  border-right: none;
+  border-left: 1px solid #e2e2e2;
 }
 
-.durabilityContainer {
-  height: 50%;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
+.key {
+  color: #C0B283;
 }

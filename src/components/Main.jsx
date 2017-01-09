@@ -128,7 +128,8 @@ export default class Main extends Component {
           <Store toast={this.toast}></Store>
         }/>
         <Match pattern="/mine" render={() =>
-          <Mine handleConnection={this.handleConnection}></Mine>
+          <Mine handleConnection={this.handleConnection}
+                toast={this.toast}></Mine>
         }/>
         <Match pattern="/start" render={() =>
           <Mining pool={this.state.connectedPool}
