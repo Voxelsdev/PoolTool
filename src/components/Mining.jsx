@@ -48,7 +48,7 @@ export default class Mining extends Component {
           let timer = '';
 
           let time = setInterval(() => {
-            if (duration.asSeconds() <= 0 || location.href !== 'https://jackpool.herokuapp.com/start') {
+            if (duration.asSeconds() <= 0 || location.href !== 'http://localhost:3000/start') {
               clearInterval(time);
             } else {
               duration = moment.duration(duration.asMilliseconds() - 1000, 'milliseconds');
