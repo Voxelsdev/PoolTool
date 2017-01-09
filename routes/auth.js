@@ -40,7 +40,7 @@ router.get('/user', authenticate, (req, res, next) => {
 
 router.get('/google',
   passport.authenticate('google', {
-    scope: ['email', 'profile', 'https://www.googleapis.com/auth/plus.login']
+    scope: ['email', 'profile']
   }), (req, res, next) => {
     console.log(json.stringify(req));
   });
@@ -52,7 +52,6 @@ router.get('/google/callback',
   const email = user.emails[0].value;
   const avatarUrl = user.photos[0].value;
   const authId = user.id;
-  const { min, max } = user._json.ageRange;
 
   knex('users')
       .select(knex.raw('1=1'))
@@ -63,8 +62,6 @@ router.get('/google/callback',
             email,
             avatarUrl,
             authId,
-            min,
-            max,
           }
 
           knex('users').insert(decamelizeKeys(newUser), '*')
