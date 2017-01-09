@@ -3,7 +3,7 @@
 exports.up = (knex) => {
   return knex.schema.createTable('tools', (table) => {
     table.increments();
-    table.string('tool_name').notNullable().unique();
+    table.string('tool_name').notNullable();
     table.integer('tier').notNullable().defaultTo(0);
     table.timestamp('expiration').defaultTo(knex.fn.now());
     table.integer('durability').notNullable().defaultTo(0);

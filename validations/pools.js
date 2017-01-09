@@ -18,7 +18,7 @@ module.exports = {
 
       radius: joi.number()
         .integer()
-        .min(10)
+        .min(1)
         .label('Radius')
         .required(),
 
