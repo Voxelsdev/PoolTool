@@ -27,7 +27,22 @@ export default class Mine extends Component {
           console.error(err);
         });
     }, (error) => {
-      this.props.toast('Nav Failure', 'error', 1500);
+      if (this.state.nearby.length) {
+        this.props.toast('Nav Failure', 'error', 1500);
+      } else {
+        const latLng = {
+          lat: 47.599068599999995,
+          lng: -122.33344479999998,
+        };
+
+        axios.post('/markers/near', latLng)
+          .then((res) => {
+            this.setState({ nearby: res.data });
+          })
+          .catch((err) => {
+            console.error(err);
+          })
+      }
     }, {timeout: 2000});
   }
 
