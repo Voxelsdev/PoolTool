@@ -41,7 +41,7 @@ export default class Main extends Component {
 
     this.setState({ loggedIn: isLoggedIn });
 
-    if (isLoggedIn && !isLoggingOut && location.href === 'http://localhost:3000/') {
+    if (isLoggedIn && !isLoggingOut && location.href === 'http://jackpool.herokuapp.com/') {
       location.href = '/game';
      }
 
