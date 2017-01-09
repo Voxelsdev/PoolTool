@@ -21,15 +21,13 @@ export default class Mine extends Component {
 
       axios.post('/markers/near', latLng)
         .then((res) => {
-          console.log(latLng);
-          console.log(res);
           this.setState({ nearby: res.data });
         })
         .catch((err) => {
           console.error(err);
         });
     }, (error) => {
-      this.props.toast('Nav Failure', 'error', 5000);
+      this.props.toast('Nav Failure', 'error', 1500);
     }, {timeout: 2000});
   }
 

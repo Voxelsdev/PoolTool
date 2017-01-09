@@ -3,11 +3,10 @@
   max-height: 20%;
   width: 100%;
   display: inline-block;
-  border-bottom: 1px solid #e2e2e2;
+  border-bottom: 1px solid #C0B283;
 }
 
 .row:nth-child(1) {
-  border-bottom: 1px dotted #e2e2e2;
 }
 
 .row {

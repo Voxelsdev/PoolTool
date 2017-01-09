@@ -61,7 +61,6 @@ router.post('/near', authenticate, (req, res, next) => {
   if (!userId) { return next('Not a valid user') }
 
   const { lat, lng } = req.body;
-  console.log(lat, lng)
 
   knex('pools')
     .where(st.dwithin('geog', st.makePoint(lng, lat), 'radius'))
