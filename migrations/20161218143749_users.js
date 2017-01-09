@@ -6,8 +6,6 @@ exports.up = (knex) => {
     table.string('email').notNullable().unique();
     table.string('auth_id').notNullable().unique();
     table.string('avatar_url').notNullable().defaultTo('http://i.imgur.com/4z8QtKs.png');
-    table.integer('min').notNullable().defaultTo(0);
-    table.integer('max').notNullable().defaultTo(0);
     table.decimal('balance').notNullable().defaultTo(100.00);
     table.boolean('is_admin').notNullable().defaultTo(false);
     table.timestamps(true, true);
