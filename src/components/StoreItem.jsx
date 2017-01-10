@@ -29,7 +29,7 @@ export default class StoreItem extends Component {
     let timer = '';
 
     let interval = setInterval(() => {
-      if (duration.asSeconds() <= 0 || location.href !== 'http://jackpool.herokuapp.com/store') {
+      if (duration.asSeconds() <= 1 || location.href !== 'http://localhost:3000/store') {
         clearInterval(interval);
       } else {
 
