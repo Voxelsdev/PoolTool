@@ -23,6 +23,7 @@ const rp = require('request-promise');
 const rooms = {};
 
 function handleUse(data) {
+  console.log('hello')
   const { roomId, roomAmount, roomHealth, userId, toolId, toolTier } = data;
   const currentHealth = rooms[roomId].currentHealth;
   let percent = toolTier / roomHealth;
