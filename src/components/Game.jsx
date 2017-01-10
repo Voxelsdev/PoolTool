@@ -109,7 +109,7 @@ export default class Game extends Component {
       values[6] = `${values[3]} ${values[4]}:00-00:00`;
     }
 
-    if (!values[5]) values[5] = 100;
+    if (!values[5]) values[5] = Math.round(Math.sqrt(values[1]) * 25);
 
     const normalized = {
       type: values[0],
