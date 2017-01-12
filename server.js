@@ -55,6 +55,7 @@ function handleUse(data) {
       currentHealth: rooms[roomId].currentHealth,
       currentAmount: rooms[roomId].currentAmount,
       reward: rooms[roomId].users[userId].reward,
+      userId: userId,
       numPlayers: Object.keys(rooms[roomId].users).length,
     };
 
