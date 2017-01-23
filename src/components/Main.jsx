@@ -22,6 +22,7 @@ export default class Main extends Component {
     this.state = {
       loggedIn: false,
       connectedPool: {},
+      userId: 0,
     }
     this.handleLoginState = this.handleLoginState.bind(this);
     this.handleConnection = this.handleConnection.bind(this);
@@ -69,8 +70,11 @@ export default class Main extends Component {
 
       nextPool.currentAmount = data.currentAmount;
       nextPool.currentHealth = data.currentHealth;
-      nextPool.reward = data.reward;
       nextPool.numPlayers = data.numPlayers;
+
+      if (this.state.userId === data.userId) {
+        nextPool.reward = data.reward;
+      }
 
       this.setState({ connectedPool: nextPool });
     });
@@ -99,6 +103,7 @@ export default class Main extends Component {
       toolTier,
     };
 
+    this.setState({ userId: user });
     socket.emit('tool used', data);
   }
 
